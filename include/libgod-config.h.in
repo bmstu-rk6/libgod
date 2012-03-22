@@ -1,0 +1,16 @@
+#ifndef LIBGOD_INC__LIBGOD_CONFIG_H
+#define LIBGOD_INC__LIBGOD_CONFIG_H
+
+/*
+   libgod-config.h
+   This file was generated automatically by CMake
+ */
+
+
+#define LIBGOD_MAJOR_VERSION @LIBGOD_MAJOR_VERSION@
+#define LIBGOD_MINOR_VERSION @LIBGOD_MINOR_VERSION@
+#define LIBGOD_PATCH_VERSION @LIBGOD_PATCH_VERSION@
+#define LIBGOD_STR_VERSION @LIBGOD_STR_VERSION@
+
+#endif
+
