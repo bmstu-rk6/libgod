@@ -1,11 +1,10 @@
-# - Try to find TASN1
-# --- COPIED FROM TASN1 ---
+# - Try to find ASN1C
+# - Copied from one of cmake templates
 # -------------------------
 # Once done this will define
 #
-#  TASN1_FOUND - system has TASN1
-#  TASN1_INCLUDE_DIR - the TASN1 include directory
-#  TASN1_LIBRARIES - Link these to use TASN1
+#  ASN1C_FOUND - system has ASN1C
+#  ASN1C_EXECUTABLE - the ASN1C executable
 
 #=============================================================================
 # Copyright 2006-2009 Kitware, Inc.
@@ -21,14 +20,12 @@
 # (To distribute this file outside of CMake, substitute the full
 #  License text for the above reference.)
 
-FIND_PATH(TASN1_INCLUDE_DIR libtasn1.h )
+FIND_PROGRAM(ASN1C_EXECUTABLE NAMES asn1c )
 
-FIND_LIBRARY(TASN1_LIBRARIES NAMES tasn1 )
-
-# handle the QUIETLY and REQUIRED arguments and set TASN1_FOUND to TRUE if 
+# handle the QUIETLY and REQUIRED arguments and set ASN1C_FOUND to TRUE if 
 # all listed variables are TRUE
 INCLUDE(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(TASN1 DEFAULT_MSG TASN1_LIBRARIES TASN1_INCLUDE_DIR)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(ASN1C DEFAULT_MSG ASN1C_EXECUTABLE)
 
-MARK_AS_ADVANCED(TASN1_INCLUDE_DIR TASN1_LIBRARIES)
+MARK_AS_ADVANCED(ASN1C_EXECUTABLE)
 

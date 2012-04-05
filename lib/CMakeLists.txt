@@ -2,19 +2,20 @@ set(GOD_SOURCES
 	libgod.cxx
 )
 
+add_subdirectory(gen)
+include_directories(gen)
 include_directories(${CMAKE_SOURCE_DIR}/include)
-add_library(god SHARED ${GOD_SOURCES})
+
+add_library(god SHARED ${GOD_SOURCES} ${GOD_GENERATED_ASN_SOURCES} ${GOD_GENERATED_SUPPORT_SOURCES})
 
 configure_file(
 	"${CMAKE_SOURCE_DIR}/include/libgod-config.h.in"
 	"${CMAKE_SOURCE_DIR}/include/libgod-config.h"
 )
 
-find_package(TASN1 REQUIRED) 
-if (TASN1_FOUND)
-	include_directories(${TASN1_INCLUDE_DIRS})
-	target_link_libraries(god ${TASN1_LIBRARIES})
-endif (TASN1_FOUND)
+set_source_files_properties(${GOD_GENERATED_ASN_SOURCES} PROPERTIES GENERATED 1)
+set_source_files_properties(${GOD_GENERATED_SUPPORT_SOURCES} PROPERTIES GENERATED 1)
+add_dependencies(god generate_asn1_sources)
 
 set_target_properties(god PROPERTIES
 		VERSION ${LIBGOD_MAJOR_VERSION}.${LIBGOD_MINOR_VERSION}.${LIBGOD_PATCH_VERSION} 

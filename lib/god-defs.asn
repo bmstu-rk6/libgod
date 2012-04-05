@@ -1,0 +1,9 @@
+God { }
+
+DEFINITIONS IMPLICIT TAGS ::=
+
+BEGIN
+
+God ::= INTEGER
+
+END
