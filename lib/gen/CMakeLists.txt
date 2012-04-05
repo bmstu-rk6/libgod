@@ -63,8 +63,8 @@ set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES Makefile.am.samp
 add_custom_command(
 		OUTPUT  ${GOD_GENERATED_ASN_FILES} ${GOD_GENERATED_SUPPORT_FILES}
 		COMMAND ${ASN1C_EXECUTABLE} "${CMAKE_SOURCE_DIR}/lib/god-defs.asn"
-		COMMAND rm -f Makefile.am.example
-		COMMAND rm -f converter-sample.c
+		COMMAND rm -f ${CMAKE_SOURCE_DIR}/lib/gen/Makefile.am.sample ${CMAKE_SOURCE_DIR}/lib/gen/converter-sample.c
+		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/gen
 		DEPENDS "${CMAKE_SOURCE_DIR}/lib/god-defs.asn"
 		COMMENT generating ASN definitions
 		VERBATIM)
