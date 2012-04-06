@@ -4,6 +4,54 @@ DEFINITIONS IMPLICIT TAGS ::=
 
 BEGIN
 
-God ::= INTEGER
+God ::= SEQUENCE {
+	header 					Header,
+	metadataGlobal	Metadata OPTIONAL,
+	metric					Metric,
+	blocks					Blocks
+}
+
+-- header 
+
+Version ::= INTEGER
+
+Header ::= SEQUENCE {
+	version					Version,
+	comment					UTF8String
+}
+
+-- metadata
+
+Metadata ::= SET OF MetadataEntry
+
+MetadataEntry ::= SEQUENCE {
+	name						UTF8String,
+	value						UTF8String
+}
+
+-- metric
+
+Metric ::= SEQUENCE {
+	parameterDim		INTEGER,
+	criteriaDim			INTEGER,
+	blocksCount			INTEGER
+}
+
+-- block
+
+Blocks ::= SEQUENCE OF Block
+
+Block ::= SEQUENCE {
+	blockMetadata		Metadata OPTIONAL,
+	pointCount			INTEGER,
+	points					Points
+}
+
+Points ::= SEQUENCE OF Point
+
+Point ::= SEQUENCE {
+	parameters			SEQUENCE OF REAL,
+	criteria				SEQUENCE OF REAL
+}
 
 END
