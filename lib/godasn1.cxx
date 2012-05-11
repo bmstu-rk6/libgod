@@ -17,11 +17,18 @@ namespace libgod
 			return -1;
 		return 0;
 	}
-
+	
 	GodASN1::GodASN1()
 		: m_root( new God_t )
 	{
 		memset( m_root.get(), 0, sizeof(God_t) );
+	}
+
+	GodASN1::GodASN1 (const std::string& file)
+		: m_root( new God_t )
+	{
+		memset( m_root.get(), 0, sizeof(God_t) );
+		readFromFile( file );
 	}
 
 	GodASN1::GodASN1 (const GodASN1& rhs)
@@ -54,7 +61,7 @@ namespace libgod
 			if (!ofs)
 				throw GodError( "Can't open file " + file );
 			God_t* raw = m_root.get();
-			status = der_encode( &asn_DEF_God, &raw, write_out, &ofs );
+			status = der_encode( &asn_DEF_God, raw, write_out, &ofs );
 			if (status.encoded == -1)
 				throw GodError( "Can't encode data to ASN1 stream" );
 		}
@@ -77,6 +84,8 @@ namespace libgod
 		try
 		{
 			GodPtr temporary( new God_t );
+			memset( temporary.get(), 0, sizeof(God_t) );
+
 			ifs.open( file.c_str(), std::ios_base::binary );
 			if (!ifs)
 				throw GodError( "Can't open file " + file );
@@ -98,7 +107,7 @@ namespace libgod
 			}
 			else
 			{
-				asn_DEF_God.free_struct( &asn_DEF_God, &raw, 0 );
+				asn_DEF_God.free_struct( &asn_DEF_God, raw, 0 );
 				throw GodError( "Can't encode data to ASN1 stream" );
 			}
 		}
@@ -114,7 +123,7 @@ namespace libgod
 	{
 		asn_enc_rval_t status;
 		God_t* raw = rhs.m_root.get();
-		xer_encode( &asn_DEF_God, &raw, XER_F_BASIC, write_out, &os );
+		xer_encode( &asn_DEF_God, raw, XER_F_BASIC, write_out, &os );
 		if (status.encoded == -1)
 			os << "ERROR XER ENCODING";
 		return os;

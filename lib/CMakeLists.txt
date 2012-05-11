@@ -1,7 +1,5 @@
 set(GOD_SOURCES
 	libgod.cxx
-	godfile.cxx
-	godfile.h
 	godasn1.cxx
 	godasn1.h
 	goderror.h
@@ -10,6 +8,7 @@ set(GOD_SOURCES
 
 add_subdirectory(gen)
 include_directories(gen)
+include_directories(${CMAKE_SOURCE_DIR}/lib)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
 add_library(god SHARED ${GOD_SOURCES} ${GOD_GENERATED_ASN_SOURCES} ${GOD_GENERATED_SUPPORT_SOURCES})
@@ -18,10 +17,6 @@ configure_file(
 	"${CMAKE_SOURCE_DIR}/include/libgod-config.h.in"
 	"${CMAKE_SOURCE_DIR}/include/libgod-config.h"
 )
-
-if(Boost_FOUND)
-   include_directories(${Boost_INCLUDE_DIRS})
-endif()
 
 set_source_files_properties(${GOD_GENERATED_ASN_SOURCES} PROPERTIES GENERATED 1)
 set_source_files_properties(${GOD_GENERATED_SUPPORT_SOURCES} PROPERTIES GENERATED 1)
@@ -34,5 +29,8 @@ set_target_properties(god PROPERTIES
 install(TARGETS god DESTINATION lib)
 install(FILES
 					${CMAKE_SOURCE_DIR}/include/libgod.h
+					${CMAKE_SOURCE_DIR}/lib/goderror.h
+					${CMAKE_SOURCE_DIR}/lib/godasn1.h
 					${CMAKE_SOURCE_DIR}/include/libgod-config.h
 				DESTINATION include/libgod)
+

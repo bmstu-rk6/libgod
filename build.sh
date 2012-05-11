@@ -11,30 +11,42 @@ clean()
 	rm -rf build
 }
 
+build()
+{ 
+	mkdir -p $INSTALL_DIR build
+	cd build
+	cmake --no-warn-unused-cli -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DBOOST_ROOT=/projects/libs/boost_1_49_0 ..
+	make 
+	make test
+	cd $OLDDIR
+}
+
+
 case "$1" in
 	clean)
 		clean
 		exit
-	;;
+		;;
 
-makelist)
-	echo "set(GOD_GENERATED_ASN_FILES"
-	find lib/gen -type f -regex '.*[ch]' | sed -E 's/^/  ${CMAKE_SOURCE_DIR}\//'
-	echo ")"
-	echo
-	echo "set(GOD_GENERATED_SUPPORT_FILES"
-	find lib/gen -type l -regex '.*[ch]' | sed -E 's/^/  ${CMAKE_SOURCE_DIR}\//'
-	echo ")"
-	;;
+	makelist)
+		echo "set(GOD_GENERATED_ASN_FILES"
+		find lib/gen -type f -regex '.*[ch]' | sed -E 's/^/  ${CMAKE_SOURCE_DIR}\//'
+		echo ")"
+		echo
+		echo "set(GOD_GENERATED_SUPPORT_FILES"
+		find lib/gen -type l -regex '.*[ch]' | sed -E 's/^/  ${CMAKE_SOURCE_DIR}\//'
+		echo ")"
+		;;
+
+	build)
+		build
+		;;
 
 	*)
 		clean
-		mkdir -p $INSTALL_DIR build
-		cd build
-		cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DBOOST_ROOT=/projects/libs/boost_1_49_0 ..
-		make $1
-		make install
-	;;
+		build
+		(cd build && make install)
+		;;
 esac
 
 echo ok 

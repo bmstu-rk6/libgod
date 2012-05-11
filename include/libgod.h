@@ -2,11 +2,15 @@
 #define LIBGOD_INC__LIBGOD_H
 
 #include "libgod-config.h"
+#include <boost/shared_ptr.hpp>
+#include <stdexcept>
+#include "goderror.h"
+#include "godasn1.h"
 
 namespace libgod
 {
 
-int foo();
+
 
 };
 
