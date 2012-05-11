@@ -31,7 +31,7 @@ makelist)
 		clean
 		mkdir -p $INSTALL_DIR build
 		cd build
-		cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR ..
+		cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DBOOST_ROOT=/projects/libs/boost_1_49_0 ..
 		make $1
 		make install
 	;;

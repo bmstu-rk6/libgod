@@ -10,6 +10,7 @@ set(LIBGOD_STR_VERSION "${LIBGOD_MAJOR_VERSION}.${LIBGOD_MINOR_VERSION}.${LIBGOD
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
 find_package(ASN1C REQUIRED) 
+find_package(Boost REQUIRED)
 
 add_subdirectory(lib)
 add_subdirectory(examples/simple)
