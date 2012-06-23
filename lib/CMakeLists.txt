@@ -2,6 +2,8 @@ set(GOD_SOURCES
 	libgod.cxx
 	godasn1.cxx
 	godasn1.h
+	godpoint.cxx
+	godpoint.h
 	goderror.h
 	common.h
 )

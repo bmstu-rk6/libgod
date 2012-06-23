@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include "goderror.h"
 #include "godasn1.h"
+#include "godpoint.h"
 
 namespace libgod
 {
