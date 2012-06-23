@@ -1,11 +1,6 @@
 #ifndef LIBGOD_INC__GODPOINT_H
 #define LIBGOD_INC__GODPOINT_H
 
-#include "libgod-config.h"
-#include <boost/scoped_array.hpp>
-#include <stdexcept>
-#include "goderror.h"
-
 namespace libgod
 {
 

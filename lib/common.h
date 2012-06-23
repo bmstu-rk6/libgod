@@ -7,4 +7,6 @@
 #include <iostream>
 #include <fstream>
 
+#include <boost/scoped_array.hpp>
+
 #endif
