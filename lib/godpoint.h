@@ -26,8 +26,20 @@ namespace libgod
 		Point& operator= (const Point& rhs);
 
 		bool operator== (const Point& rhs) const;
-		
 		bool operator!= (const Point& rhs) const;
+
+		size_t dimParameter() const;
+		size_t dimCriteria() const;
+
+		double parameterAt(size_t ind) const;
+		void setParameterAt(size_t ind, double value);
+		double* parameters();
+		void setParameters(double* value);
+
+		double criterionAt(size_t ind) const;
+		void setCriterionAt(size_t ind, double value);
+		double* criteria();
+		void setCriteria(double* value);
 	};
 
 
