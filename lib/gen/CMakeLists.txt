@@ -1,8 +1,8 @@
 set(GOD_GENERATED_ASN_FILES
-  ${CMAKE_SOURCE_DIR}/lib/gen/Block.c
-  ${CMAKE_SOURCE_DIR}/lib/gen/Block.h
-  ${CMAKE_SOURCE_DIR}/lib/gen/Blocks.c
-  ${CMAKE_SOURCE_DIR}/lib/gen/Blocks.h
+	${CMAKE_SOURCE_DIR}/lib/gen/Set.c
+	${CMAKE_SOURCE_DIR}/lib/gen/Set.h
+  ${CMAKE_SOURCE_DIR}/lib/gen/Union.c
+  ${CMAKE_SOURCE_DIR}/lib/gen/Union.h
   ${CMAKE_SOURCE_DIR}/lib/gen/God.c
   ${CMAKE_SOURCE_DIR}/lib/gen/God.h
   ${CMAKE_SOURCE_DIR}/lib/gen/Header.c

@@ -3,6 +3,7 @@
 
 #include <cstring>
 #include <vector>
+#include <list>
 #include <stdexcept>
 #include <iostream>
 #include <fstream>

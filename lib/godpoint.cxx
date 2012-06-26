@@ -13,6 +13,18 @@ namespace libgod
 		if (m_dimParameter <= 0 || m_dimCriteria <= 0)
 			throw GodError("dimensions should be posititive");
 	}
+	
+	Point::Point(size_t dimParameter, size_t dimCriteria, const double* parameters, const double* criteria)
+		: m_dimParameter(dimParameter),
+			m_dimCriteria(dimCriteria),
+			m_parameters(new double[m_dimParameter]),
+			m_criteria(new double[m_dimCriteria])
+	{
+		if (m_dimParameter <= 0 || m_dimCriteria <= 0)
+			throw GodError("dimensions should be posititive");
+		memcpy(m_parameters.get(), parameters, m_dimParameter * sizeof(double));
+		memcpy(m_criteria.get(), criteria, m_dimCriteria * sizeof(double));
+	}
 
 	Point::Point (const Point& rhs)
 		: m_dimParameter(rhs.m_dimParameter),
@@ -88,7 +100,7 @@ namespace libgod
 		return m_parameters.get();
 	}
 	
-	void Point::setParameters(double* value)
+	void Point::setParameters(const double* value)
 	{
 		memcpy(m_parameters.get(), value, m_dimParameter * sizeof(double));
 	}
@@ -113,7 +125,7 @@ namespace libgod
 		return m_criteria.get();
 	}
 	
-	void Point::setCriteria(double* value)
+	void Point::setCriteria(const double* value)
 	{
 		memcpy(m_criteria.get(), value, m_dimCriteria * sizeof(double));
 	}

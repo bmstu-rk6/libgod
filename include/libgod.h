@@ -6,10 +6,12 @@
 #include <boost/scoped_array.hpp>
 #include <stdexcept>
 #include <vector>
+#include <list>
 
 #include "goderror.h"
 #include "godpoint.h"
 #include "godset.h"
+#include "godunion.h"
 
 #endif
 

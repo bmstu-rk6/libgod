@@ -8,7 +8,7 @@ God ::= SEQUENCE {
 	header 					Header,
 	metadataGlobal	Metadata OPTIONAL,
 	metric					Metric,
-	blocks					Blocks
+	union						Union
 }
 
 -- header 
@@ -34,15 +34,15 @@ MetadataEntry ::= SEQUENCE {
 Metric ::= SEQUENCE {
 	parameterDim		INTEGER,
 	criteriaDim			INTEGER,
-	blocksCount			INTEGER
+	setsCount				INTEGER
 }
 
--- block
+-- data
 
-Blocks ::= SEQUENCE OF Block
+Union ::= SEQUENCE OF Set
 
-Block ::= SEQUENCE {
-	blockMetadata		Metadata OPTIONAL,
+Set ::= SEQUENCE {
+	setMetadata			Metadata OPTIONAL,
 	pointCount			INTEGER,
 	points					Points
 }

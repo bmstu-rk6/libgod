@@ -63,8 +63,7 @@ namespace libgod
 		return m_dimCriteria;
 	}
 
-	
-	size_t Set::pointsCount() const
+	size_t Set::size() const
 	{
 		return m_points.size();
 	}
@@ -72,6 +71,45 @@ namespace libgod
 	void Set::clear()
 	{
 		m_points.clear();
+	}
+
+
+	Set::iterator Set::begin()
+	{
+		return m_points.begin();
+	}
+
+	Set::const_iterator Set::begin() const
+	{
+		return m_points.begin();
+	}
+
+	Set::iterator Set::end()
+	{
+		return m_points.end();
+	}
+
+	Set::const_iterator Set::end() const
+	{
+		return m_points.end();
+	}
+
+	Set::iterator Set::atIndex(size_t ind)
+	{
+		if (ind >= size())
+			throw GodOutOfRangeError("set point ", ind, size());
+		Set::iterator it = begin();
+		std::advance(it, ind);
+		return it;
+	}
+
+	Set::const_iterator Set::atIndex(size_t ind) const
+	{
+		if (ind >= size())
+			throw GodOutOfRangeError("set point ", ind, size());
+		Set::const_iterator it = begin();
+		std::advance(it, ind);
+		return it;
 	}
 		
 	Point& Set::addPoint()
@@ -90,41 +128,32 @@ namespace libgod
 	
 	void Set::removePoint(size_t ind)
 	{
-		if (ind >= m_points.size())
-			throw GodOutOfRangeError("set points ", ind, m_points.size());
-		m_points.erase(m_points.begin() + ind);
+		removePoint(atIndex(ind));
 	}
-
-	const Point& Set::pointAt (size_t ind) const
+	
+	void Set::removePoint(Set::iterator iter)
 	{
-		if (ind >= m_points.size())
-			throw GodOutOfRangeError("set points ", ind, m_points.size());
-		return m_points[ind];
-	}
-
-	Point& Set::pointAt (size_t ind)
-	{
-		if (ind >= m_points.size())
-			throw GodOutOfRangeError("set points ", ind, m_points.size());
-		return m_points[ind];
+		if (iter >= end())
+			throw GodOutOfRangeError("set points ", std::distance(begin(), iter), size());
+		m_points.erase(iter);
 	}
 
 	const Point& Set::operator[] (size_t ind) const
 	{
-		return pointAt(ind);
+		return *atIndex(ind);
 	}
 
 	Point& Set::operator[] (size_t ind)
 	{
-		return pointAt(ind);
+		return *atIndex(ind);
 	}
 
 	void Set::swapPoints (size_t left_ind, size_t right_ind)
 	{
-		if (left_ind >= m_points.size())
-			throw GodOutOfRangeError("set points ", left_ind, m_points.size());
-		if (right_ind >= m_points.size())
-			throw GodOutOfRangeError("set points ", right_ind, m_points.size());
+		if (left_ind >= size())
+			throw GodOutOfRangeError("set points ", left_ind, size());
+		if (right_ind >= size())
+			throw GodOutOfRangeError("set points ", right_ind, size());
 		std::swap(m_points[left_ind], m_points[right_ind]);
 	}
 };

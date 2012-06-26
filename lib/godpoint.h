@@ -16,6 +16,7 @@ namespace libgod
 	public:
 
 		Point(size_t dimParameter, size_t dimCriteria);
+		Point(size_t dimParameter, size_t dimCriteria, const double* parameters, const double* criteria);
 		Point (const Point& rhs);
 		~Point();
 		Point& operator= (const Point& rhs);
@@ -29,12 +30,12 @@ namespace libgod
 		double parameterAt(size_t ind) const;
 		void setParameterAt(size_t ind, double value);
 		double* parameters();
-		void setParameters(double* value);
+		void setParameters(const double* value);
 
 		double criterionAt(size_t ind) const;
 		void setCriterionAt(size_t ind, double value);
 		double* criteria();
-		void setCriteria(double* value);
+		void setCriteria(const double* value);
 	};
 
 
