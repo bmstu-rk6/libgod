@@ -9,6 +9,7 @@
 #include <list>
 
 #include "goderror.h"
+#include "container.h"
 #include "godpoint.h"
 #include "godset.h"
 #include "godunion.h"
