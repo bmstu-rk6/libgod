@@ -28,6 +28,7 @@ set(INPUT_TESTS
 # library with testing primitives
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/lib)
+include_directories(${CMAKE_SOURCE_DIR}/lib/gen)
 
 add_library(godtest STATIC ${GODTEST_SOURCES})
 

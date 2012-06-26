@@ -3,7 +3,7 @@
 
 // forward declaration for an ASN.1 generated serializer
 // do not want to leak them to a client
-struct God;
+//struct God;
 
 namespace libgod
 {
@@ -12,7 +12,7 @@ namespace libgod
 	class GodASN1
 	{
 	protected:
-		typedef boost::shared_ptr<God> GodPtr;
+		typedef boost::shared_ptr<asn1::God> GodPtr;
 		GodPtr m_root;
 	public:
 		GodASN1();

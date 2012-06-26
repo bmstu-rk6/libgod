@@ -36,7 +36,6 @@ install(FILES
 					${CMAKE_SOURCE_DIR}/lib/goderror.h
 					${CMAKE_SOURCE_DIR}/lib/godpoint.h
 					${CMAKE_SOURCE_DIR}/lib/godset.h
-					${CMAKE_SOURCE_DIR}/lib/godasn1.h
 					${CMAKE_SOURCE_DIR}/include/libgod-config.h
 				DESTINATION include/libgod)
 

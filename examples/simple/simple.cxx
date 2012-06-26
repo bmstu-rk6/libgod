@@ -8,8 +8,8 @@ int main(int argc, char* argv[])
 		if (argc != 2)
 			throw std::runtime_error( "Not enough arguments" );
 
-		libgod::GodASN1 ga;
-		ga.writeToFile( argv[1] );
+		//libgod::GodASN1 ga;
+		//ga.writeToFile( argv[1] );
 	}
 	catch (std::exception& e)
 	{

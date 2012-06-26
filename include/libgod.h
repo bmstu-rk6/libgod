@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "goderror.h"
-#include "godasn1.h"
 #include "godpoint.h"
 #include "godset.h"
 

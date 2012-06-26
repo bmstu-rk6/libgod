@@ -5,7 +5,11 @@
 #include <stdexcept>
 #include <string>
 #include <boost/shared_ptr.hpp>
-#include <libgod.h>
+namespace asn1
+{
+#include "God.h"
+};
+#include "godasn1.h"
 
 #define INIT_TEST(neededArgs) initTest( __FILE__, (neededArgs), argc, argv );
 
