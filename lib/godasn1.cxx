@@ -132,6 +132,11 @@ namespace libgod
 			os << "ERROR XER ENCODING";
 		return os;
 	}
-
+	
+	GodASN1::GodPtr GodASN1::getRoot()
+	{
+		return m_root;
+	}
+	
 };
 

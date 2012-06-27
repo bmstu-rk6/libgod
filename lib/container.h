@@ -133,12 +133,12 @@ namespace libgod
 			return m_items.back();
 		}
 
-		void add(const T& point)
+		void add(const T& item)
 		{
-			if (point.dimParameter() != m_dimParameter ||
-					point.dimCriteria() != m_dimCriteria)
-				throw GodError("added point has a different dimension than a set");
-			m_items.push_back(point);
+			if (item.dimParameter() != m_dimParameter ||
+					item.dimCriteria() != m_dimCriteria)
+				throw GodError("added item has a different dimension than a set");
+			m_items.push_back(item);
 		}
 
 		void remove(size_t ind)

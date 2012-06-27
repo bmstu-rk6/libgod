@@ -9,6 +9,8 @@ set(GOD_SOURCES
 	godunion.cxx
 	godunion.h
 	goderror.h
+	storage.cxx
+	storage.h
 	container.h
 	common.h
 )
@@ -41,6 +43,7 @@ install(FILES
 					${CMAKE_SOURCE_DIR}/lib/godpoint.h
 					${CMAKE_SOURCE_DIR}/lib/godset.h
 					${CMAKE_SOURCE_DIR}/lib/godunion.h
+					${CMAKE_SOURCE_DIR}/lib/storage.h
 					${CMAKE_SOURCE_DIR}/include/libgod-config.h
 				DESTINATION include/libgod)
 

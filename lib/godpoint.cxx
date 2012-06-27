@@ -12,6 +12,8 @@ namespace libgod
 	{
 		if (m_dimParameter <= 0 || m_dimCriteria <= 0)
 			throw GodError("dimensions should be posititive");
+		memset(m_parameters.get(), 0, m_dimParameter * sizeof(double));
+		memset(m_criteria.get(), 0, m_dimCriteria * sizeof(double));
 	}
 	
 	Point::Point(size_t dimParameter, size_t dimCriteria, const double* parameters, const double* criteria)

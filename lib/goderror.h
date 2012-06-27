@@ -11,28 +11,24 @@ namespace libgod
 			: std::runtime_error(message)
 		{
 		}
+		
+		explicit GodError (const std::string& message, int errnoCode)
+			: std::runtime_error(boost::str(boost::format("%s, fail due to %d (%s)")
+						% message % errnoCode % strerror(errnoCode)))
+		{
+		}
 
 		virtual ~GodError() throw()
 		{
 		}
 	};
 	
-	namespace detail
-	{
-		inline std::string outOfRangeSuffix(size_t pos, size_t count)
-		{
-			char buf[64];
-			if (snprintf(buf, sizeof(buf), " index %lu is out of range %lu", pos, count ) >= sizeof(buf))
-				buf[sizeof(buf)-1] = 0;
-			return buf;
-		}
-	};
-
 	class GodOutOfRangeError : std::out_of_range
 	{
 	public:
 		explicit GodOutOfRangeError (const std::string& message, size_t pos, size_t count)
-			: std::out_of_range(message + detail::outOfRangeSuffix(pos,count)) 
+			: std::out_of_range(boost::str(boost::format("%s index %lu is out of range %lu") 
+						% pos % count))
 		{
 		}
 

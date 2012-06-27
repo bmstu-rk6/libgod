@@ -12,6 +12,7 @@ set(GOD_TESTS_IO
 # tests for generating ASN.1
 set(GOD_TESTS_OUT
 	filewrite
+	test_storage
 )
 
 set(GOD_TESTS

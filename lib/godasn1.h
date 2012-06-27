@@ -11,8 +11,9 @@ namespace libgod
 	// Class wraps ASN.1 initialization and serialization 
 	class GodASN1
 	{
-	protected:
+	public:
 		typedef boost::shared_ptr<asn1::God> GodPtr;
+	private:
 		GodPtr m_root;
 	public:
 		GodASN1();
@@ -24,6 +25,8 @@ namespace libgod
 		~GodASN1();
 
 		GodASN1& operator= (const GodASN1& rhs);
+
+		GodPtr getRoot();
 
 		void writeToFile (const std::string& file);
 		void readFromFile (const std::string& file);

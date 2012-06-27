@@ -2,17 +2,25 @@
 #define LIBGOD_INC__LIBGOD_H
 
 #include "libgod-config.h"
-#include <boost/shared_ptr.hpp>
-#include <boost/scoped_array.hpp>
+
 #include <stdexcept>
+#include <iostream>
+#include <fstream>
+#include <cstring>
 #include <vector>
 #include <list>
+#include <boost/shared_ptr.hpp>
+#include <boost/scoped_ptr.hpp>
+#include <boost/scoped_array.hpp>
+#include <boost/noncopyable.hpp>
+#include <boost/format.hpp>
 
 #include "goderror.h"
 #include "container.h"
 #include "godpoint.h"
 #include "godset.h"
 #include "godunion.h"
+#include "storage.h"
 
 #endif
 
