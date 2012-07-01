@@ -3,7 +3,7 @@ libgod
 
 Global Optimization Data Library.
 
-Nothing personal. Pure atheistic.
+Nothing personal. Pure atheistic. Pure phdic.
 
 Welcome to the [discussion wiki](https://github.com/bmstu-rk6/libgod/wiki)
 
