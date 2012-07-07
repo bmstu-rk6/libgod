@@ -35,6 +35,12 @@ namespace libgod
 					throw GodError("dimensions should be posititive");
 			}
 
+		Container ()
+			: m_dimParameter(1),
+				m_dimCriteria(1),
+				m_classDesc("")
+			{
+			}
 
 	public:
 		

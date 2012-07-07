@@ -17,6 +17,10 @@ namespace libgod
 	{
 	}
 
+	Union::Union()
+		: Union::BaseType()
+	{
+	}
 };
 
 
