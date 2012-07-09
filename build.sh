@@ -4,7 +4,7 @@ set -e
 OLDDIR=`pwd`
 
 # parameters
-. build.conf
+. ./build.conf
 
 trap "cd $OLDDIR" exit
 
