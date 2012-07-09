@@ -64,13 +64,20 @@ namespace libgod
 		{
 			if (this != &rhs)
 			{
-				if (!m_isBare && 
-						(m_dimParameter != rhs.m_dimParameter || m_dimCriteria != rhs.m_dimCriteria))
+				if (m_isBare)
 				{
-					throw GodError("cannot assign item with a different metric");
+					m_dimParameter = rhs.m_dimParameter;
+					m_dimCriteria = rhs.m_dimCriteria;
 				}
-				m_isBare = false;
+				else
+				{
+					if (m_dimParameter != rhs.m_dimParameter || m_dimCriteria != rhs.m_dimCriteria)
+					{
+						throw GodError("cannot assign item with a different metric");
+					}
+				}
 				m_items = rhs.m_items;
+				m_isBare = false;
 			}
 			return *this;
 		}

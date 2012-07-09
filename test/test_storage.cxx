@@ -45,6 +45,15 @@ int main(int argc, char* argv[])
 		libgod::Union nunion(dp,dc);
 		storage.read(nunion);
 		storage.dump(std::cout, nunion);
+
+		// test bare
+		libgod::Union u2;
+		ASSERT_TRUE(u2.isBare());
+		ASSERT_TRUE(u2.dimCriteria()<=1);
+		u2 = nunion;
+		ASSERT_TRUE(!u2.isBare());
+		ASSERT_EQUAL(u2.dimCriteria(), nunion.dimCriteria());
+		ASSERT_EQUAL(u2.dimParameter(), nunion.dimParameter());
 		
 		ASSERT_EQUAL(aunion.size(), dp);
 		ASSERT_EQUAL(aunion.size(), nunion.size());
