@@ -28,7 +28,7 @@ namespace libgod
 	public:
 		explicit GodOutOfRangeError (const std::string& message, size_t pos, size_t count)
 			: std::out_of_range(boost::str(boost::format("%s index %lu is out of range %lu") 
-						% pos % count))
+						% message % pos % count))
 		{
 		}
 
