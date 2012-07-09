@@ -10,15 +10,18 @@ namespace libgod
 	protected:
 		typedef Container<T, Inner> SelfType;
 
-		const size_t m_dimParameter;
-		const size_t m_dimCriteria;
+		bool m_isBare;
+
+		size_t m_dimParameter;
+		size_t m_dimCriteria;
 
 		Inner m_items;
 
 		const std::string m_classDesc;
 
 		Container (const std::string& classDesc, size_t dimParameter, size_t dimCriteria)
-			: m_dimParameter(dimParameter),
+			: m_isBare(false),
+				m_dimParameter(dimParameter),
 				m_dimCriteria(dimCriteria),
 				m_classDesc(classDesc)
 			{
@@ -27,7 +30,8 @@ namespace libgod
 			}
 		
 		Container (const SelfType& rhs)
-			: m_dimParameter(rhs.m_dimParameter),
+			: m_isBare(false),
+			 	m_dimParameter(rhs.m_dimParameter),
 				m_dimCriteria(rhs.m_dimCriteria),
 				m_classDesc(rhs.m_classDesc)
 			{
@@ -35,8 +39,17 @@ namespace libgod
 					throw GodError("dimensions should be posititive");
 			}
 
+		explicit Container (const std::string& classDesc)
+			: m_isBare(true),
+			 	m_dimParameter(1),
+				m_dimCriteria(1),
+				m_classDesc(classDesc)
+			{
+			}
+
 		Container ()
-			: m_dimParameter(1),
+			: m_isBare(true),
+			 	m_dimParameter(1),
 				m_dimCriteria(1),
 				m_classDesc("")
 			{
@@ -51,11 +64,12 @@ namespace libgod
 		{
 			if (this != &rhs)
 			{
-				if (m_dimParameter != rhs.m_dimParameter || 
-						m_dimCriteria != rhs.m_dimCriteria)
+				if (!m_isBare && 
+						(m_dimParameter != rhs.m_dimParameter || m_dimCriteria != rhs.m_dimCriteria))
 				{
 					throw GodError("cannot assign item with a different metric");
 				}
+				m_isBare = false;
 				m_items = rhs.m_items;
 			}
 			return *this;
@@ -92,6 +106,11 @@ namespace libgod
 		void clear()
 		{
 			m_items.clear();
+		}
+
+		bool isBare() const
+		{
+			return m_isBare;
 		}
 
 

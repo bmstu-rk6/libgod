@@ -5,6 +5,7 @@
 #include "godset.h"
 #include "godunion.h"
 #include "storage.h"
+#include "asserts.h"
 
 namespace asn1
 {
@@ -88,7 +89,7 @@ namespace libgod
 					if (ASN_SEQUENCE_ADD(&dataPoint->parameters, dataReal))
 						throw GodError(errReason, errno);
 				}
-				// god.union.set.point.crteria
+				// god.union.set.point.criteria
 				for (size_t ind = 0; ind < itPoint->dimCriteria(); ++ind)
 				{
 					dataReal = newzeroed<asn1::REAL_t>();
@@ -105,11 +106,88 @@ namespace libgod
 				throw GodError(errReason, errno);
 		}
 
+		ASSERT_EQUAL(root.Union.list.count,aunion.size());
 	}
 
+	int stringFromOctetString (const asn1::UTF8String_t *s, std::string& result)
+	{
+		if (s->buf)
+			result.assign(s->buf, s->buf + s->size);
+		else
+			result.clear();
+		return 0;
+	}
 
 	void StorageImpl::convertFromASN1Data (Union& aunion, const asn1::God& root)
 	{
+		const int formatVersion = 1;
+		const std::string errReason = "Converting from ASN1 failed";
+
+		long actualVersion;
+		std::string comment;
+		long dimParameter, dimCriteria, setsCount, pointCount;
+		double value;
+
+		asn1::Set *dataSet;
+		asn1::Point *dataPoint;
+		asn1::REAL_t *dataReal;
+
+		// god.header
+		if (asn1::asn_INTEGER2long(&root.header.version, &actualVersion))
+			throw GodError(errReason, errno);
+		if (actualVersion > formatVersion)
+			throw GodError("Cannot read this newer format");
+		
+		// it's an utf8 string
+		if (stringFromOctetString(&root.header.comment, comment))
+			throw GodError(errReason, errno);
+
+		// god.metric
+		if (asn1::asn_INTEGER2long(&root.metric.parameterDim, &dimParameter))
+			throw GodError(errReason, errno);
+		if (asn1::asn_INTEGER2long(&root.metric.criteriaDim, &dimCriteria))
+			throw GodError(errReason, errno);
+		if (asn1::asn_INTEGER2long(&root.metric.setsCount, &setsCount))
+			throw GodError(errReason, errno);
+
+		// create non-bare union with right dimensions
+		aunion = libgod::Union(dimParameter, dimCriteria);
+		
+		ASSERT_EQUAL(root.Union.list.count, setsCount);
+
+		for (size_t setIndex = 0; setIndex < setsCount; ++setIndex)
+		{
+			libgod::Set& aset = aunion.add();
+
+			dataSet = root.Union.list.array[setIndex];
+			if (asn1::asn_INTEGER2long(&dataSet->pointCount, &pointCount))
+				throw GodError(errReason, errno);
+
+			ASSERT_EQUAL(dataSet->points.list.count, pointCount);
+
+			for (size_t pointIndex = 0; pointIndex < pointCount; ++pointIndex)
+			{
+				libgod::Point& apoint = aset.add();
+
+				dataPoint = dataSet->points.list.array[pointIndex];
+			
+				ASSERT_EQUAL(dataPoint->parameters.list.count, dimParameter);
+				ASSERT_EQUAL(dataPoint->criteria.list.count, dimCriteria);
+
+				for (size_t ind = 0; ind < dimParameter; ++ind)
+				{
+					if (asn1::asn_REAL2double(dataPoint->parameters.list.array[ind], &value))
+						throw GodError(errReason, errno);
+					apoint.setParameterAt(ind, value);
+				}
+				for (size_t ind = 0; ind < dimCriteria; ++ind)
+				{
+					if (asn1::asn_REAL2double(dataPoint->criteria.list.array[ind], &value))
+						throw GodError(errReason, errno);
+					apoint.setCriterionAt(ind, value);
+				}
+			}
+		}
 	}
 
 

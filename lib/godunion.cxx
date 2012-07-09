@@ -7,6 +7,11 @@
 
 namespace libgod
 {
+	Union::Union()
+		: Union::BaseType("union")
+	{
+	}
+
 	Union::Union(size_t dimParameter, size_t dimCriteria)
 		: Union::BaseType("union", dimParameter, dimCriteria)
 	{
@@ -17,10 +22,6 @@ namespace libgod
 	{
 	}
 
-	Union::Union()
-		: Union::BaseType()
-	{
-	}
 };
 
 

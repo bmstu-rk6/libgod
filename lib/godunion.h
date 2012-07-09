@@ -8,9 +8,9 @@ namespace libgod
 	{
 		typedef Container<Set, std::list<Set> > BaseType;
 	public:
+		Union();
 		Union(size_t dimParameter, size_t dimCriteria);
 		Union(const Union& rhs);
-		Union();
 	};
 
 };

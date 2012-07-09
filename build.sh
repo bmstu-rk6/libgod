@@ -2,7 +2,10 @@
 set -e
 
 OLDDIR=`pwd`
-INSTALL_DIR=/tmp/localgod
+
+# parameters
+. build.conf
+
 trap "cd $OLDDIR" exit
 
 clean()
@@ -15,7 +18,7 @@ build()
 { 
 	mkdir -p $INSTALL_DIR build
 	cd build
-	cmake --no-warn-unused-cli -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DBOOST_ROOT=/projects/libs/boost_1_49_0 ..
+	cmake --no-warn-unused-cli -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE -DBOOST_ROOT=$BOOST_ROOT ..
 	make 
 	make test
 	cd $OLDDIR

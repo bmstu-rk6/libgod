@@ -1,3 +1,5 @@
+include(CTest)
+
 set(GODTEST_SOURCES
 	godtest.cxx
 	godtest.h

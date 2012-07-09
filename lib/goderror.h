@@ -4,7 +4,7 @@
 namespace libgod
 {
 
-	class GodError : std::runtime_error
+	class GodError : public std::runtime_error
 	{
 	public:
 		explicit GodError (const std::string& message)
@@ -23,7 +23,7 @@ namespace libgod
 		}
 	};
 	
-	class GodOutOfRangeError : std::out_of_range
+	class GodOutOfRangeError : public std::out_of_range
 	{
 	public:
 		explicit GodOutOfRangeError (const std::string& message, size_t pos, size_t count)
