@@ -24,6 +24,13 @@ build()
 	cd $OLDDIR
 }
 
+build_fast()
+{ 
+	cd build
+	make 
+	make test
+	cd $OLDDIR
+}
 
 case "$1" in
 	clean)
@@ -43,6 +50,10 @@ case "$1" in
 
 	build)
 		build
+		;;
+
+	fast)
+		build_fast
 		;;
 
 	*)

@@ -16,6 +16,15 @@ namespace libgod
 	{
 	}
 
+	bool Set::operator== (const Set& rhs) const
+	{
+		return deepEquals(rhs);
+	}
+
+	bool Set::operator!= (const Set& rhs) const
+	{
+		return !(*this == rhs);
+	}
 };
 
 

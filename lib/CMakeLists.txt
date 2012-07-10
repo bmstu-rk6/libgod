@@ -13,6 +13,8 @@ set(GOD_SOURCES
 	storage.h
 	container.h
 	common.h
+	asserts.h
+	comparable.h
 )
 
 add_subdirectory(gen)
@@ -44,6 +46,8 @@ install(FILES
 					${CMAKE_SOURCE_DIR}/lib/godset.h
 					${CMAKE_SOURCE_DIR}/lib/godunion.h
 					${CMAKE_SOURCE_DIR}/lib/storage.h
+					${CMAKE_SOURCE_DIR}/lib/container.h
+					${CMAKE_SOURCE_DIR}/lib/comparable.h
 					${CMAKE_SOURCE_DIR}/include/libgod-config.h
 				DESTINATION include/libgod)
 

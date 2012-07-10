@@ -8,14 +8,15 @@ namespace libgod
 	{
 		typedef Container<Set, std::list<Set> > BaseType;
 	protected:
-		using BaseType::m_dimCriteria;
 		// Union has light equals for operator==
-		virtual bool doEquals (const Union& rhs) const;
+		//virtual bool doEquals (const Union& rhs) const;
 	public:
 		Union();
 		Union(size_t dimParameter, size_t dimCriteria);
 		Union(const Union& rhs);
 		
+		bool operator== (const Union& rhs) const;
+		bool operator!= (const Union& rhs) const;
 		bool deepEquals (const Union& rhs) const;
 	};
 

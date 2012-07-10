@@ -30,11 +30,13 @@ namespace libgod
 		double parameterAt(size_t ind) const;
 		void setParameterAt(size_t ind, double value);
 		double* parameters();
+		const double* parameters() const;
 		void setParameters(const double* value);
 
 		double criterionAt(size_t ind) const;
 		void setCriterionAt(size_t ind, double value);
 		double* criteria();
+		const double* criteria() const;
 		void setCriteria(const double* value);
 	};
 

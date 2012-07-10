@@ -4,6 +4,7 @@
 #include "godpoint.h"
 #include "godset.h"
 #include "godunion.h"
+#include "comparable.h"
 
 namespace libgod
 {
@@ -22,20 +23,25 @@ namespace libgod
 	{
 	}
 		
-	bool Union::doEquals (const Union& rhs) const
+	bool Union::operator== (const Union& rhs) const
 	{
-		return
-			m_dimParameter == rhs.m_dimParameter &&
-			m_dimCriteria == rhs.m_dimCriteria &&
-			m_items.size() == rhs.m_items.size();
+		return 
+				dimParameter() == rhs.dimParameter() &&
+				dimCriteria() == rhs.dimCriteria() &&
+				size() == rhs.size();
 	}
 
-	// TODO add reorder compare
+	bool Union::operator!= (const Union& rhs) const
+	{
+		return !(*this == rhs);
+	}
+
+	// TODO let deepEquals to ignore set order
 	bool Union::deepEquals (const Union& rhs) const
 	{
-		return doEquals( rhs ) && m_items == rhs.m_items;
+		return Union::BaseType::deepEquals(rhs);
 	}
-
+	
 };
 
 

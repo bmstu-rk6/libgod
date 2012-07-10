@@ -17,9 +17,16 @@ set(GOD_TESTS_OUT
 	test_storage
 )
 
+# plain tests without parameters
+set(GOD_TESTS_PLAIN
+	test_equals
+	test_comparable
+)
+
 set(GOD_TESTS
 	${GOD_TESTS_IO}
 	${GOD_TESTS_OUT}
+	${GOD_TESTS_PLAIN}
 )
 	
 # test files to run
@@ -68,4 +75,9 @@ foreach(test ${GOD_TESTS_OUT})
 	foreach(filename ${INPUT_TESTS})
 		add_test(NAME "${test}_${filename}" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${test} ${PROJECT_BINARY_DIR}/${filename})
 	endforeach()
+endforeach()
+
+# run plain tests
+foreach(test ${GOD_TESTS_PLAIN})
+	add_test(NAME "${test}" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${test})
 endforeach()

@@ -102,6 +102,11 @@ namespace libgod
 		return m_parameters.get();
 	}
 	
+	const double* Point::parameters() const
+	{
+		return m_parameters.get();
+	}
+	
 	void Point::setParameters(const double* value)
 	{
 		memcpy(m_parameters.get(), value, m_dimParameter * sizeof(double));
@@ -123,6 +128,11 @@ namespace libgod
 	}
 
 	double* Point::criteria()
+	{
+		return m_criteria.get();
+	}
+	
+	const double* Point::criteria() const
 	{
 		return m_criteria.get();
 	}

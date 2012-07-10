@@ -33,7 +33,8 @@ namespace libgod
 			: m_isBare(false),
 			 	m_dimParameter(rhs.m_dimParameter),
 				m_dimCriteria(rhs.m_dimCriteria),
-				m_classDesc(rhs.m_classDesc)
+				m_classDesc(rhs.m_classDesc),
+				m_items(rhs.m_items)
 			{
 				if (m_dimParameter <= 0 || m_dimCriteria <= 0)
 					throw GodError("dimensions should be posititive");
@@ -55,7 +56,11 @@ namespace libgod
 			{
 			}
 
-		virtual bool doEquals (const SelfType& rhs) const
+		~Container()
+		{
+		}
+
+		bool deepEquals (const SelfType& rhs) const
 		{
 			return
 				m_dimParameter == rhs.m_dimParameter &&
@@ -92,12 +97,12 @@ namespace libgod
 
 		bool operator== (const SelfType& rhs) const
 		{
-			return doEquals(rhs);
+			return fullyEquals(rhs);
 		}
 
 		bool operator!= (const SelfType& rhs) const
 		{
-			return !doEquals(rhs);
+			return !fullyEquals(rhs);
 		}
 
 		size_t dimParameter() const
