@@ -17,7 +17,7 @@ namespace libgod
 	{
 		bool result = left;
 		if (!result)
-			throw assert_exception( boost::format( "assertEqual at %d : %s - %s" )
+			throw assert_exception( boost::format( "assertTrue at %d : %s - %s" )
 					% line % (result?"true":"false") % left );
 	}
 

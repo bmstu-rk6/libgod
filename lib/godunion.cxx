@@ -21,6 +21,20 @@ namespace libgod
 		: Union::BaseType(rhs)
 	{
 	}
+		
+	bool Union::doEquals (const Union& rhs) const
+	{
+		return
+			m_dimParameter == rhs.m_dimParameter &&
+			m_dimCriteria == rhs.m_dimCriteria &&
+			m_items.size() == rhs.m_items.size();
+	}
+
+	// TODO add reorder compare
+	bool Union::deepEquals (const Union& rhs) const
+	{
+		return doEquals( rhs ) && m_items == rhs.m_items;
+	}
 
 };
 

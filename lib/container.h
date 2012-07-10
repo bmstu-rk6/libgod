@@ -55,6 +55,14 @@ namespace libgod
 			{
 			}
 
+		virtual bool doEquals (const SelfType& rhs) const
+		{
+			return
+				m_dimParameter == rhs.m_dimParameter &&
+				m_dimCriteria == rhs.m_dimCriteria &&
+				m_items == rhs.m_items;
+		}
+
 	public:
 		
 		typedef typename Inner::iterator iterator;
@@ -84,15 +92,12 @@ namespace libgod
 
 		bool operator== (const SelfType& rhs) const
 		{
-			return
-				m_dimParameter == rhs.m_dimParameter &&
-				m_dimCriteria == rhs.m_dimCriteria &&
-				m_items == rhs.m_items;
+			return doEquals(rhs);
 		}
 
 		bool operator!= (const SelfType& rhs) const
 		{
-			return !(*this == rhs);
+			return !doEquals(rhs);
 		}
 
 		size_t dimParameter() const

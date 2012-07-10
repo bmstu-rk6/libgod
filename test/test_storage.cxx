@@ -38,6 +38,8 @@ int main(int argc, char* argv[])
 		ASSERT_EQUAL(aunion[0].dimParameter(), dp);
 		ASSERT_EQUAL(aunion[0][0].dimParameter(), dp);
 
+
+		// storage tests
 		libgod::Storage storage(argv[1]);
 		storage.write(aunion);
 		storage.dump(std::cout, aunion);
@@ -57,6 +59,27 @@ int main(int argc, char* argv[])
 		
 		ASSERT_EQUAL(aunion.size(), dp);
 		ASSERT_EQUAL(aunion.size(), nunion.size());
+
+		// equals tests for the set
+		libgod::Set aset2copy = aset2;
+		ASSERT_TRUE(aset2copy == aset2);
+		ASSERT_TRUE(!(aset2copy != aset2));
+
+		// equals tests for the union
+		//
+		libgod::Union aunioncopy = aunion;
+		ASSERT_TRUE(aunioncopy == aunion);
+		ASSERT_TRUE(!(aunioncopy != aunion));
+		ASSERT_TRUE(aunioncopy.deepEquals(aunion));
+		ASSERT_TRUE(aunion.deepEquals(aunioncopy));
+
+		// changing content keeps union equal
+		aunioncopy[0] = aunioncopy[1];
+		ASSERT_TRUE(aunioncopy == aunion);
+		ASSERT_TRUE(!(aunioncopy != aunion));
+		ASSERT_TRUE(!aunioncopy.deepEquals(aunion));
+		ASSERT_TRUE(!aunion.deepEquals(aunioncopy));
+
 	}
 	catch (std::exception& e)
 	{
