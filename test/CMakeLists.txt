@@ -11,6 +11,11 @@ set(GOD_TESTS_IO
 	filereadctor
 )
 
+# tests for comparing read-and-write Union
+set(GOD_TESTS_UNION_IO
+	testunionio
+)
+
 # tests for generating ASN.1
 set(GOD_TESTS_OUT
 	filewrite
@@ -25,14 +30,22 @@ set(GOD_TESTS_PLAIN
 
 set(GOD_TESTS
 	${GOD_TESTS_IO}
+	${GOD_TESTS_UNION_IO}
 	${GOD_TESTS_OUT}
 	${GOD_TESTS_PLAIN}
 )
 	
-# test files to run
+# test files to run for ASN/1 serilization
 set(INPUT_TESTS
 	input1.asn1
 	input2.asn1
+)
+
+# test files to run for union serilization
+set(INPUT_UNION_TESTS
+	input.union1
+	input.union2
+	input.union3
 )
 
 # library with testing primitives
@@ -67,6 +80,15 @@ foreach(test ${GOD_TESTS_IO})
 		add_test(NAME "${test}_${filename}_pre" COMMAND ${CMAKE_COMMAND} -E remove ${PROJECT_BINARY_DIR}/${filename}.out)
 		add_test(NAME "${test}_${filename}" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${test} ${PROJECT_BINARY_DIR}/${filename} ${PROJECT_BINARY_DIR}/${filename}.out)
 		add_test(NAME "${test}_${filename}_post" COMMAND ${CMAKE_COMMAND} -E compare_files ${PROJECT_BINARY_DIR}/${filename} ${PROJECT_BINARY_DIR}/${filename}.out)
+	endforeach()
+endforeach()
+
+# run input+ouput tests for Union
+foreach(test ${GOD_TESTS_UNION_IO})
+	foreach(filename ${INPUT_UNION_TESTS})
+		add_test(NAME "${test}_${filename}_pre" COMMAND ${CMAKE_COMMAND} -E remove ${PROJECT_BINARY_DIR}/${filename}.out)
+		add_test(NAME "${test}_${filename}" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${test} ${PROJECT_BINARY_DIR}/${filename} ${PROJECT_BINARY_DIR}/${filename}.out)
+		add_test(NAME "${test}_${filename}_post" COMMAND ${CMAKE_COMMAND} -E compare_files ${PROJECT_BINARY_DIR}/${filename} ${PROJECT_BINARY_DIR}/${filename}.out) 
 	endforeach()
 endforeach()
 
