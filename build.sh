@@ -18,7 +18,10 @@ build()
 { 
 	mkdir -p $INSTALL_DIR build
 	cd build
-	cmake --no-warn-unused-cli -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE -DBOOST_ROOT=$BOOST_ROOT ..
+	CMAKE_COMMAND="cmake --no-warn-unused-cli -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE -DBOOST_ROOT=$BOOST_ROOT -DLIBGOD_VERBOSE_TESTS=$VERBOSE_TESTS .."
+	echo Executing following cmake command
+	echo $CMAKE_COMMAND
+	$CMAKE_COMMAND
 	make 
 	make test
 	cd $OLDDIR
@@ -35,7 +38,6 @@ build_fast()
 case "$1" in
 	clean)
 		clean
-		exit
 		;;
 
 	makelist)
