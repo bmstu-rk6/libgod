@@ -52,6 +52,21 @@ int main(int argc, char* argv[])
 			
 			ASSERT_EQUAL(aunion.size(), dp);
 			ASSERT_EQUAL(aunion.size(), nunion.size());
+			
+			{
+				bool is_thrown = false;
+				try
+				{
+					libgod::Union u;
+					libgod::Storage storage(std::string(argv[1]) + "_does_not_exists");
+					storage.read(u);
+				}
+				catch (libgod::GodError& ge)
+				{
+					is_thrown = true;
+				}
+				ASSERT_TRUE(is_thrown);
+			}
 		}
 
 	}
