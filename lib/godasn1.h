@@ -31,7 +31,9 @@ namespace libgod
 		void writeToFile (const std::string& file);
 		void readFromFile (const std::string& file);
 
-		friend std::ostream& operator<< (std::ostream& os, const GodASN1& rhs);
+		void dump (std::ostream& os, asn1::God* asnStruct);
+		void dump (std::ostream& os, asn1::Set* asnStruct);
+		void dump (std::ostream& os, asn1::Point* asnStruct);
 	};
 
 };

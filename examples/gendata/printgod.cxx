@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
 		st.read(un);
 
 		//Print dump to stdout
-		st.dump(std::cout, un);
+		std::cout << un;
 
 	}
 	catch (std::exception& e) {

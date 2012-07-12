@@ -4,6 +4,8 @@
 namespace asn1
 {
 #include "God.h"
+#include "Set.h"
+#include "Point.h"
 #include "der_encoder.h"
 #include "xer_encoder.h"
 };
@@ -124,14 +126,28 @@ namespace libgod
 		}
 	}
 	
-	std::ostream& operator<< (std::ostream& os, const GodASN1& rhs)
+	template <class ASNType, class ASNStruct>
+	void genericDump (std::ostream& os, ASNType* asnType, ASNStruct* asnStruct)
 	{
 		asn1::asn_enc_rval_t status;
-		asn1::God_t* raw = rhs.m_root.get();
-		xer_encode( &asn1::asn_DEF_God, raw, asn1::XER_F_BASIC, write_out, &os );
+		xer_encode( asnType, asnStruct, asn1::XER_F_BASIC, write_out, &os );
 		if (status.encoded == -1)
 			os << "ERROR XER ENCODING";
-		return os;
+	}
+
+	void GodASN1::dump (std::ostream& os, asn1::God* asnStruct)
+	{
+		genericDump(os, &asn1::asn_DEF_God, asnStruct);
+	}
+	
+	void GodASN1::dump (std::ostream& os, asn1::Set* asnStruct)
+	{
+		genericDump(os, &asn1::asn_DEF_Set, asnStruct);
+	}
+	
+	void GodASN1::dump (std::ostream& os, asn1::Point* asnStruct)
+	{
+		genericDump(os, &asn1::asn_DEF_Point, asnStruct);
 	}
 	
 	GodASN1::GodPtr GodASN1::getRoot()

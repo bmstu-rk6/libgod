@@ -43,7 +43,32 @@ int main(int argc, char* argv[])
 			ASSERT_EQUAL(aset2copy.dimParameter(), aset2.dimParameter());
 			ASSERT_EQUAL(aset2copy.dimCriteria(), aset2.dimCriteria());
 			ASSERT_TRUE(!(aset2copy != aset2));
+
+			// construct a union
+			
+			libgod::Set aset1(dp,dc);
+			aset1.add(randPoint(dp,dc));
+			
+			libgod::Set aset3(dp,dc);
+			aset3.add(randPoint(dp,dc));
+			aset3.add(randPoint(dp,dc));
+			aset3.add(randPoint(dp,dc));
+
+			libgod::Union u(dp,dc);
+			u.add(aset1);
+			u.add(aset2);
+			u.add(aset3);
+
+			// test set swaps
+/*			ASSERT_EQUAL(u[0], aset1);
+			ASSERT_EQUAL(u[1], aset2);
+			ASSERT_EQUAL(u[2], aset3);
+			u.swapItems(0,1);
+			ASSERT_EQUAL(u[1], aset1);
+			ASSERT_EQUAL(u[0], aset2);
+			ASSERT_EQUAL(u[2], aset3);*/
 		}
+
 
 		{
 			// equals tests for the union

@@ -141,7 +141,7 @@ namespace libgod
 	{
 		memcpy(m_criteria.get(), value, m_dimCriteria * sizeof(double));
 	}
-
+	
 };
 
 

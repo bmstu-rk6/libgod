@@ -8,6 +8,8 @@ set(GOD_SOURCES
 	godset.h
 	godunion.cxx
 	godunion.h
+	godbridge.cxx
+	godbridge.h
 	goderror.h
 	storage.cxx
 	storage.h

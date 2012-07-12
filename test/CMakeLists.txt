@@ -48,7 +48,9 @@ endforeach(test ${TEST_testS})
 
 foreach(input_test ${GOD_ALL_INPUTS})
   set (dest "${PROJECT_BINARY_DIR}/${input_test}")
-  message (STATUS " Copying ${input_test}")
+	if (LIBGOD_VERBOSE_TESTS)
+  	message (STATUS " Copying ${input_test}")
+	endif (LIBGOD_VERBOSE_TESTS)
   add_custom_command (
       TARGET     godtest
       POST_BUILD

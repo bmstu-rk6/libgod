@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 		libgod::Storage st1("input.union1");
 		st1.write(un1);
 		// Print dump to cout
-		st1.dump(std::cout, un1);
+		std::cout << un1;
 
 		//un1.~Union();
 
@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
 		
 		libgod::Storage st2("input.union2");
 		st2.write(un2);
-		st2.dump(std::cout, un2);
+		std::cout << un2;
 
 		//input.union3: Union with 10 sets, each set has (i+1) random points
 		const size_t dp = 2, dc = 3; 
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 
 		libgod::Storage st3("input.union3");
 		st3.write(un3);
-		st3.dump(std::cout, un3);
+		std::cout << un3;
 
 		//TODO: input.union4: 
 

@@ -44,15 +44,16 @@ int main(int argc, char* argv[])
 			// storage tests
 			libgod::Storage storage(argv[1]);
 			storage.write(aunion);
-			storage.dump(std::cout, aunion);
+			std::cout << aunion;
 			
 			libgod::Union nunion(dp,dc);
 			storage.read(nunion);
-			storage.dump(std::cout, nunion);
+			std::cout << nunion;
 			
 			ASSERT_EQUAL(aunion.size(), dp);
 			ASSERT_EQUAL(aunion.size(), nunion.size());
 			
+			// test reading from a non-existent file
 			{
 				bool is_thrown = false;
 				try
@@ -67,6 +68,15 @@ int main(int argc, char* argv[])
 				}
 				ASSERT_TRUE(is_thrown);
 			}
+
+			// test operator<<
+			// TODO make more deep test, now we are sure
+			// that they doesn't fail
+			std::cout << aunion << std::endl;
+			std::cout << aset1 << std::endl;
+			std::cout << aset1[0] << std::endl;
+			
+
 		}
 
 	}

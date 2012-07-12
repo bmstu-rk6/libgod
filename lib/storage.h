@@ -3,11 +3,12 @@
 
 namespace libgod
 {
-
-	class StorageImpl;
+	// Storage class
+	// Holds a persistent serializer and allows to read/write God structures
+	class GodBridge;
 	class Storage : boost::noncopyable
 	{
-		boost::scoped_ptr<libgod::StorageImpl> m_impl;
+		boost::scoped_ptr<libgod::GodBridge> m_impl;
 		
 		const std::string m_file;
 	public:
@@ -15,9 +16,12 @@ namespace libgod
 		~Storage();
 		void write (const Union& aunion);
 		void read (Union& aunion);
-
-		void dump (std::ostream& os, const Union& aunion);
 	};
+	
+	// Dump XER encoding
+	std::ostream& operator<< (std::ostream& os, const Union& rhs);
+	std::ostream& operator<< (std::ostream& os, const Set& rhs);
+	std::ostream& operator<< (std::ostream& os, const Point& rhs);
 
 };
 
