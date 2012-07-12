@@ -58,12 +58,13 @@ namespace libgod
 	{
 		asn1::asn_enc_rval_t status;
 		std::ofstream ofs;
-		ofs.exceptions ( std::ios_base::failbit | std::ios_base::badbit );
 		try
 		{
 			ofs.open( file.c_str(), std::ios_base::binary );
 			if (!ofs)
-				throw GodError( "Can't open file " + file );
+				throw GodNotFoundError(file);
+
+			ofs.exceptions ( std::ios_base::failbit | std::ios_base::badbit );
 			asn1::God_t* raw = m_root.get();
 			status = der_encode( &asn1::asn_DEF_God, raw, write_out, &ofs );
 			if (status.encoded == -1)
@@ -84,7 +85,6 @@ namespace libgod
 	{
 		asn1::asn_dec_rval_t status;
 		std::ifstream ifs;
-		ifs.exceptions ( std::ios_base::failbit | std::ios_base::badbit );
 		try
 		{
 			GodPtr temporary( new asn1::God_t );
@@ -92,8 +92,9 @@ namespace libgod
 
 			ifs.open( file.c_str(), std::ios_base::binary );
 			if (!ifs)
-				throw GodError( "Can't open file " + file );
+				throw GodNotFoundError(file);
 
+			ifs.exceptions ( std::ios_base::failbit | std::ios_base::badbit );
 			if (!ifs.seekg( 0, std::ios_base::end ))
 				throw GodError( "Error seeking to end of file " + file  );
 			

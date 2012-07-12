@@ -4,11 +4,17 @@
 namespace libgod
 {
 
+	// Generic error class
 	class GodError : public std::runtime_error
 	{
 	public:
 		explicit GodError (const std::string& message)
 			: std::runtime_error(message)
+		{
+		}
+		
+		explicit GodError (const boost::format& fmt)
+			: std::runtime_error(fmt.str())
 		{
 		}
 		
@@ -22,17 +28,25 @@ namespace libgod
 		{
 		}
 	};
+
+	// File not found error
+	class GodNotFoundError : public GodError
+	{
+	public:
+		explicit GodNotFoundError(const std::string& file)
+			: GodError("File not found " + file)
+		{
+		}
+	};
 	
-	class GodOutOfRangeError : public std::out_of_range
+
+	// Range error
+	class GodOutOfRangeError : public GodError
 	{
 	public:
 		explicit GodOutOfRangeError (const std::string& message, size_t pos, size_t count)
-			: std::out_of_range(boost::str(boost::format("%s index %lu is out of range %lu") 
-						% message % pos % count))
-		{
-		}
-
-		virtual ~GodOutOfRangeError() throw()
+			: GodError(boost::format("%s index %lu is out of range %lu") 
+						% message % pos % count)
 		{
 		}
 	};

@@ -5,11 +5,11 @@
 
 namespace libgod
 {
-  class assert_exception : public std::runtime_error
+  class assert_exception : public GodError
 	{
   public:
-    explicit assert_exception (const std::string& message) : std::runtime_error(message){}
-    explicit assert_exception (const boost::format& message) : std::runtime_error(message.str()){}
+    explicit assert_exception (const std::string& message) : GodError(message){}
+    explicit assert_exception (const boost::format& message) : GodError(message){}
   };
 	
 	template <class T>
