@@ -1,9 +1,16 @@
 include(CTest)
 
+# common library
+
 set(GODTEST_SOURCES
 	godtest.cxx
 	godtest.h
 )
+
+# ------------------------
+# all test programs
+#
+
 
 # tests for comparing read-and-write ASN.1 loop
 set(GOD_TESTS_IO
@@ -28,15 +35,23 @@ set(GOD_TESTS_PLAIN
 	test_comparable
 )
 
-set(GOD_TESTS
+
+# must list here all test sources
+
+set(GOD_ALL_TESTS
 	${GOD_TESTS_IO}
 	${GOD_TESTS_UNION_IO}
 	${GOD_TESTS_OUT}
 	${GOD_TESTS_PLAIN}
 )
+
+
+# ------------------------
+# all test data files
+#
 	
 # test files to run for ASN/1 serilization
-set(INPUT_TESTS
+set(INPUT_RW_TESTS
 	input1.asn1
 	input2.asn1
 )
@@ -48,6 +63,14 @@ set(INPUT_UNION_TESTS
 	input.union3
 )
 
+set(GOD_ALL_INPUTS
+	${INPUT_RW_TESTS}
+	${INPUT_UNION_TESTS}
+)
+
+# must list here all test sources
+
+
 # library with testing primitives
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/lib)
@@ -55,14 +78,15 @@ include_directories(${CMAKE_SOURCE_DIR}/lib/gen)
 
 add_library(godtest STATIC ${GODTEST_SOURCES})
 
-foreach(test ${GOD_TESTS})
+# tests targets
+foreach(test ${GOD_ALL_TESTS})
   add_executable(${test} ${test}.cxx)
   target_link_libraries(${test} god)
 	target_link_libraries(${test} godtest)
 endforeach(test ${TEST_testS})
 
 # copy test files to the build dir
-foreach(input_test ${INPUT_TESTS})
+foreach(input_test ${GOD_ALL_INPUTS})
   set (dest "${PROJECT_BINARY_DIR}/${input_test}")
   message (STATUS " Copying ${input_test}")
   add_custom_command (
@@ -74,6 +98,7 @@ foreach(input_test ${INPUT_TESTS})
   )
 endforeach()
 
+
 # adds a test and prints it's command line
 macro(add_test_verbose)
 	if (LIBGOD_VERBOSE_TESTS)
@@ -84,7 +109,7 @@ endmacro(add_test_verbose)
 
 # run input+output tests
 foreach(test ${GOD_TESTS_IO})
-	foreach(filename ${INPUT_TESTS})
+	foreach(filename ${INPUT_RW_TESTS})
 		add_test(NAME "${test}_${filename}_pre" COMMAND ${CMAKE_COMMAND} -E remove ${PROJECT_BINARY_DIR}/${filename}.out)
 		add_test_verbose(NAME "${test}_${filename}" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${test} ${PROJECT_BINARY_DIR}/${filename} ${PROJECT_BINARY_DIR}/${filename}.out)
 		add_test(NAME "${test}_${filename}_post" COMMAND ${CMAKE_COMMAND} -E compare_files ${PROJECT_BINARY_DIR}/${filename} ${PROJECT_BINARY_DIR}/${filename}.out)
@@ -102,7 +127,7 @@ endforeach()
 
 # run output only tests
 foreach(test ${GOD_TESTS_OUT})
-	foreach(filename ${INPUT_TESTS})
+	foreach(filename ${INPUT_RW_TESTS})
 		add_test_verbose(NAME "${test}_${filename}" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${test} ${PROJECT_BINARY_DIR}/${filename})
 	endforeach()
 endforeach()
