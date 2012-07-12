@@ -35,11 +35,26 @@ namespace libgod
 	{
 		return !(*this == rhs);
 	}
-
-	// TODO let deepEquals to ignore set order
-	bool Union::deepEquals (const Union& rhs) const
+	
+	// a bit hackish. we cant't invoke base class method
+	// not on the self
+	bool Union::invokeEquals (const Union& rhs) const
 	{
 		return Union::BaseType::deepEquals(rhs);
+	}
+
+	bool Union::deepEquals (const Union& rhs) const
+	{
+		// fetch items from both unions to temporary unions
+		Union utempLhs = *this;
+		Union utempRhs = rhs;
+
+		// sort both copies
+		utempLhs.sort(Comparable());
+		utempRhs.sort(Comparable());
+
+		// call deepEquals on them
+		return utempLhs.invokeEquals(utempRhs);
 	}
 	
 };

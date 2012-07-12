@@ -60,13 +60,13 @@ int main(int argc, char* argv[])
 			u.add(aset3);
 
 			// test set swaps
-/*			ASSERT_EQUAL(u[0], aset1);
+			ASSERT_EQUAL(u[0], aset1);
 			ASSERT_EQUAL(u[1], aset2);
 			ASSERT_EQUAL(u[2], aset3);
 			u.swapItems(0,1);
 			ASSERT_EQUAL(u[1], aset1);
 			ASSERT_EQUAL(u[0], aset2);
-			ASSERT_EQUAL(u[2], aset3);*/
+			ASSERT_EQUAL(u[2], aset3);
 		}
 
 
@@ -84,12 +84,29 @@ int main(int argc, char* argv[])
 			ASSERT_TRUE(u2.deepEquals(u1));
 			ASSERT_TRUE(u1.deepEquals(u2));
 
-			// changing content keeps union equal
+			// changing set content keeps union equal
+			// deepEquals should fail of course
 			u2[0] = u2[1];
 			ASSERT_TRUE(u2 == u1);
 			ASSERT_TRUE(!(u2 != u1));
 			ASSERT_TRUE(!u2.deepEquals(u1));
 			ASSERT_TRUE(!u1.deepEquals(u2));
+
+			// deepEquals checks for sets equality
+			u1[2].add(randPoint(dp,dc));
+			ASSERT_TRUE(u2 == u1);
+			ASSERT_TRUE(!(u2 != u1));
+			ASSERT_TRUE(!u2.deepEquals(u1));
+			ASSERT_TRUE(!u1.deepEquals(u2));
+			
+			// deepEquals succeeds if some sets are swapped 
+			// i.e. not ordered
+			u2 = u1;
+			u2.swapItems(0,1);
+			ASSERT_TRUE(u2 == u1);
+			ASSERT_TRUE(!(u2 != u1));
+			ASSERT_TRUE(u2.deepEquals(u1));
+			ASSERT_TRUE(u1.deepEquals(u2));
 		}
 
 	}

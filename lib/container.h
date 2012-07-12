@@ -4,6 +4,21 @@
 namespace libgod
 {
 
+	namespace details
+	{
+		template <class T, class Comp>
+		void genericSort (typename std::vector<T>& cont, const Comp& comp)
+		{
+			std::sort(cont.begin(), cont.end(), comp);
+		}
+		
+		template <class T, class Comp>
+		void genericSort (typename std::list<T>& cont, const Comp& comp)
+		{
+			cont.sort(comp);
+		}
+	};
+
 	template <typename T, typename Inner>
 	class Container
 	{
@@ -195,6 +210,12 @@ namespace libgod
 			m_items.erase(iter);
 		}
 
+		template <class Comp>
+		void sort(const Comp& comp)
+		{
+			details::genericSort(m_items, comp);
+		}
+
 		const T& operator[] (size_t ind) const
 		{
 			return *atIndex(ind);
@@ -211,7 +232,7 @@ namespace libgod
 				throw GodOutOfRangeError(m_classDesc + " item ", left_ind, size());
 			if (right_ind >= size())
 				throw GodOutOfRangeError(m_classDesc + " item ", right_ind, size());
-			std::swap(m_items[left_ind], m_items[right_ind]);
+			std::swap((*this)[left_ind], (*this)[right_ind]);
 		}
 	};
 
