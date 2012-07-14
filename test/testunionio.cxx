@@ -2,6 +2,9 @@
 
 int main (int argc, char *argv[]) {
 	INIT_TEST(2);
+
+	bool is_thrown = false;
+
 	try {
 		libgod::Union un;
 		libgod::Storage st1( argv[1] );
@@ -11,9 +14,10 @@ int main (int argc, char *argv[]) {
 		st2.write(un);
 		
 	}
-	catch (std::exception& e) {
-		std::cerr<< "Test error: " << e.what() << std::endl;
+	catch (libgod::GodError& ge) {
+		std::cerr<< "Test error: " << ge.what() << std::endl;
 		return 1;
 	}
+
 	return 0;
 }

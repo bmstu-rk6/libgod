@@ -5,6 +5,7 @@ include(CTest)
 set(GOD_ALL_TESTS
 	fileread
 	filereadctor
+	testuniono
 	testunionio
 	filewrite
 	test_storage
@@ -20,6 +21,7 @@ set(GOD_ALL_INPUTS
 	input.union1
 	input.union2
 	input.union3
+	input.union3.bin
 )
 
 
@@ -80,10 +82,16 @@ macro(def_test_input_output test filename)
 endmacro(def_test_input_output)
 
 # shortut macro for output test
-# assume that a test writes a ARG2 file
+# assume that a test writes an ARG2 file
 macro(def_test_output test filename)
 	add_test_verbose(NAME "${test}_${filename}" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${test} ${PROJECT_BINARY_DIR}/${filename})
 endmacro(def_test_output)
+
+# assume that a test writes an ARG2+"_out" and compare it with ARG2 file 
+macro(def_test_output_cmp test filename)
+	add_test_verbose(NAME "${test}_${filename}" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${test} ${PROJECT_BINARY_DIR}/${filename})
+	add_test(NAME "${test}_${filename}_post" COMMAND ${CMAKE_COMMAND} -E compare_files ${PROJECT_BINARY_DIR}/${filename} ${PROJECT_BINARY_DIR}/${filename}.out)
+endmacro(def_test_output_cmp)
 
 # shortut macro for a simple test
 macro(def_test_plain test)
@@ -93,6 +101,11 @@ endmacro(def_test_plain)
 
 # --------------------------------------------------------
 # actual test defintions
+
+def_test_output(testuniono nofound)
+def_test_output_cmp(testuniono input.union1)
+def_test_output_cmp(testuniono input.union2)
+def_test_output_cmp(testuniono input.union3)
 
 def_test_input_output(fileread input1.asn1)
 def_test_input_output(fileread input2.asn1)
