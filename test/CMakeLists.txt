@@ -106,16 +106,18 @@ def_test_output(testuniono nofound)
 def_test_output_cmp(testuniono input.union1)
 def_test_output_cmp(testuniono input.union2)
 def_test_output_cmp(testuniono input.union3)
+#def_test_output(testuniono input.unionrand)
+
+def_test_input_output(testunionio input.union1)
+def_test_input_output(testunionio input.union2)
+def_test_input_output(testunionio input.union3)
+#def_test_input_output(testunionio input.unionrand)
 
 def_test_input_output(fileread input1.asn1)
 def_test_input_output(fileread input2.asn1)
 
 def_test_input_output(filereadctor input1.asn1)
 def_test_input_output(filereadctor input2.asn1)
-
-def_test_input_output(testunionio input.union1)
-def_test_input_output(testunionio input.union2)
-def_test_input_output(testunionio input.union3)
 
 def_test_output(filewrite input1.asn1)
 def_test_output(filewrite input2.asn1)
