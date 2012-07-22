@@ -7,11 +7,32 @@ set(GOD_ALL_TESTS
 	filereadctor
 	testuniono
 	testunionio
+	testpoint
 	filewrite
 	test_storage
 	test_equals
 	test_comparable
 )
+
+# libgod::Point tests
+set(GOD_POINT_TESTS
+	testpoint_constructor_neg_parms
+	testpoint_constructor_null_ptrs
+	testpoint_constructor_array_less_dim
+	testpoint_constructor_array_larger_dim
+	testpoint_constructor_array_eq_ptr
+	testpoint_constructor_array_init
+	testpoint_constructor_copy
+	testpoint_setSomethingAt
+	testpoint_delete_init_arrays
+	testpoint_setParameters
+	testpoint_setCriteria
+	testpoint_setget_with_neg_index
+	testpoint_equal_operator
+	testpoint_assignment_operator
+)
+
+
 
 # all test data files
 
@@ -23,7 +44,6 @@ set(GOD_ALL_INPUTS
 	input.union3
 	input.union3.bin
 )
-
 
 # library with testing primitives
 
@@ -98,6 +118,11 @@ macro(def_test_plain test)
 	add_test_verbose(NAME "${test}" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${test})
 endmacro(def_test_plain)
 
+# shorcut macro for simple test and ARG2 as parameter
+macro(def_test_plain_arg testname testexec arg)
+	add_test_verbose(NAME "${testname}" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${testexec} ${arg})
+endmacro(def_test_plain_arg)
+
 
 # --------------------------------------------------------
 # actual test defintions
@@ -127,4 +152,12 @@ def_test_output(test_storage input2.asn1)
 
 def_test_plain(test_equals)
 def_test_plain(test_comparable)
+
+# Test libgod::Point
+MATH(EXPR i "1")
+foreach(testname ${GOD_POINT_TESTS})
+	def_test_plain_arg(${testname} testpoint ${i})
+	MATH(EXPR i "${i}+1")
+endforeach()
+
 

@@ -27,9 +27,9 @@ libgod::Point readPoint (size_t dp, size_t dc, std::ifstream& file) {
 libgod::Point randPoint (size_t dp, size_t dc) {
 	libgod::Point p(dp,dc);
 	
-	for (int i=0; i<dp; i++)
+	for (size_t i = 0; i < dp; i++)
 		p.setParameterAt(i, 1.0 * rand() / RAND_MAX);
-	for (int i=0; i<dc; i++)
+	for (size_t i = 0; i < dc; i++)
 		p.setCriterionAt(i, 1.0 * rand() / RAND_MAX);
 		
 	return p;
