@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
 	try {
 		//input.union1: Union with 1 empty set
 		libgod::Union un1(10,7);
-		libgod::Set& s = un1.add();
+		un1.add();
 		
 		libgod::Storage st1("input.union1");
 		st1.write(un1);

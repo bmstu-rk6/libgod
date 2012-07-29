@@ -119,7 +119,7 @@ namespace libgod
 				throw GodError(errReason, errno);
 		}
 
-		ASSERT_EQUAL(asnGod->Union.list.count,aunion.size());
+		ASSERT_EQUAL((size_t)asnGod->Union.list.count, aunion.size());
 	}
 
 	int stringFromOctetString (const asn1::UTF8String_t *s, std::string& result)
@@ -143,7 +143,6 @@ namespace libgod
 
 		asn1::Set *dataSet;
 		asn1::Point *dataPoint;
-		asn1::REAL_t *dataReal;
 
 		// god.header
 		if (asn1::asn_INTEGER2long(&god->header.version, &actualVersion))
@@ -168,7 +167,7 @@ namespace libgod
 		
 		ASSERT_EQUAL(god->Union.list.count, setsCount);
 
-		for (size_t setIndex = 0; setIndex < setsCount; ++setIndex)
+		for (size_t setIndex = 0; setIndex < (size_t)setsCount; ++setIndex)
 		{
 			libgod::Set& aset = aunion.add();
 
@@ -178,7 +177,7 @@ namespace libgod
 
 			ASSERT_EQUAL(dataSet->points.list.count, pointCount);
 
-			for (size_t pointIndex = 0; pointIndex < pointCount; ++pointIndex)
+			for (size_t pointIndex = 0; pointIndex < (size_t)pointCount; ++pointIndex)
 			{
 				libgod::Point& apoint = aset.add();
 
@@ -187,13 +186,13 @@ namespace libgod
 				ASSERT_EQUAL(dataPoint->parameters.list.count, dimParameter);
 				ASSERT_EQUAL(dataPoint->criteria.list.count, dimCriteria);
 
-				for (size_t ind = 0; ind < dimParameter; ++ind)
+				for (size_t ind = 0; ind < (size_t)dimParameter; ++ind)
 				{
 					if (asn1::asn_REAL2double(dataPoint->parameters.list.array[ind], &value))
 						throw GodError(errReason, errno);
 					apoint.setParameterAt(ind, value);
 				}
-				for (size_t ind = 0; ind < dimCriteria; ++ind)
+				for (size_t ind = 0; ind < (size_t)dimCriteria; ++ind)
 				{
 					if (asn1::asn_REAL2double(dataPoint->criteria.list.array[ind], &value))
 						throw GodError(errReason, errno);

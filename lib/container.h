@@ -48,8 +48,8 @@ namespace libgod
 			: m_isBare(false),
 			 	m_dimParameter(rhs.m_dimParameter),
 				m_dimCriteria(rhs.m_dimCriteria),
-				m_classDesc(rhs.m_classDesc),
-				m_items(rhs.m_items)
+				m_items(rhs.m_items),
+				m_classDesc(rhs.m_classDesc)
 			{
 				if (m_dimParameter <= 0 || m_dimCriteria <= 0)
 					throw GodError("dimensions should be posititive");

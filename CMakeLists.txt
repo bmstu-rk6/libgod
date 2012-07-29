@@ -13,10 +13,16 @@ find_package(ASN1C REQUIRED)
 find_package(Boost REQUIRED)
 
 if(Boost_FOUND)
-   include_directories(${Boost_INCLUDE_DIRS})
+	include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 endif()
 
 enable_testing()
+
+if(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")
+	add_definitions(/W2)
+elseif(CMAKE_COMPILER_IS_GNUCC)
+	add_definitions(-Wall)
+endif()
 
 add_subdirectory(lib)
 add_subdirectory(test)

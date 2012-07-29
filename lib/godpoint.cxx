@@ -6,24 +6,28 @@ namespace libgod
 {
 	Point::Point(size_t dimParameter, size_t dimCriteria)
 		: m_dimParameter(dimParameter),
-		m_dimCriteria(dimCriteria),
-		m_parameters(new double[m_dimParameter]),
-		m_criteria(new double[m_dimCriteria])
+		m_dimCriteria(dimCriteria)
 	{
 		if (m_dimParameter <= 0 || m_dimCriteria <= 0)
 			throw GodError("dimensions should be posititive");
+		m_parameters.reset( new double[m_dimParameter] );
+		m_criteria.reset( new double[m_dimCriteria] );
 		memset(m_parameters.get(), 0, m_dimParameter * sizeof(double));
 		memset(m_criteria.get(), 0, m_dimCriteria * sizeof(double));
 	}
 	
 	Point::Point(size_t dimParameter, size_t dimCriteria, const double* parameters, const double* criteria)
 		: m_dimParameter(dimParameter),
-			m_dimCriteria(dimCriteria),
-			m_parameters(new double[m_dimParameter]),
-			m_criteria(new double[m_dimCriteria])
+			m_dimCriteria(dimCriteria)
 	{
 		if (m_dimParameter <= 0 || m_dimCriteria <= 0)
 			throw GodError("dimensions should be posititive");
+		if (!parameters || !criteria)
+			throw GodError("null pointers detected at ctor");
+		if (parameters == criteria)
+			throw GodError("passed the same pointer for parameters and criteria arrays, possibly a bug");
+		m_parameters.reset( new double[m_dimParameter] );
+		m_criteria.reset( new double[m_dimCriteria] );
 		memcpy(m_parameters.get(), parameters, m_dimParameter * sizeof(double));
 		memcpy(m_criteria.get(), criteria, m_dimCriteria * sizeof(double));
 	}
@@ -109,6 +113,8 @@ namespace libgod
 	
 	void Point::setParameters(const double* value)
 	{
+		if (!value)
+			throw GodError("null pointers detected");
 		memcpy(m_parameters.get(), value, m_dimParameter * sizeof(double));
 	}
 
@@ -139,6 +145,8 @@ namespace libgod
 	
 	void Point::setCriteria(const double* value)
 	{
+		if (!value)
+			throw GodError("null pointers detected");
 		memcpy(m_criteria.get(), value, m_dimCriteria * sizeof(double));
 	}
 	

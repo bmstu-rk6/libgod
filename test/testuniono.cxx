@@ -61,7 +61,7 @@ int main (int argc, char *argv[]) {
 		try {
 			libgod::Storage st(std::string(argv[1])+".out");
 			libgod::Union un(10,7);
-			libgod::Set& s = un.add();
+			un.add();
 			
 			st.write(un);
 		}

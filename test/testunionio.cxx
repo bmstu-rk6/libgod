@@ -3,8 +3,6 @@
 int main (int argc, char *argv[]) {
 	INIT_TEST(2);
 
-	bool is_thrown = false;
-
 	try {
 		libgod::Union un;
 		libgod::Storage st1( argv[1] );

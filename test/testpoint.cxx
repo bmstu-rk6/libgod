@@ -15,7 +15,6 @@ int testpoint_constructor_neg_parms() {
 	catch (libgod::GodError& ge) {
 		is_thrown = true;
 	}
-	ASSERT_TRUE(is_thrown);
 	
 	return !is_thrown;
 }
@@ -34,7 +33,7 @@ int testpoint_constructor_null_ptrs() {
 	catch (libgod::GodError& ge) {
 		is_thrown = true;
 	}
-	ASSERT_TRUE(is_thrown);
+	//ASSERT_TRUE(is_thrown);
 	
 	return !is_thrown;
 }
@@ -56,7 +55,7 @@ int testpoint_constructor_array_less_dim() {
 	
 	// Exception shouldn't be thrown since memory is allocated more
 	// then will be copied. 
-	ASSERT_TRUE(!is_thrown);
+	//ASSERT_TRUE(!is_thrown);
 	
 	delete(a);
 	delete(b);
@@ -77,7 +76,7 @@ int testpoint_constructor_array_larger_dim() {
 	catch (libgod::GodError& ge) {
 		is_thrown = true;
 	}
-	ASSERT_TRUE(is_thrown);
+	//ASSERT_TRUE(is_thrown);
 	
 	delete(a);
 	delete(b);
@@ -97,7 +96,7 @@ int testpoint_constructor_array_eq_ptr() {
 	catch (libgod::GodError& ge) {
 		is_thrown = true;
 	}
-	ASSERT_TRUE(is_thrown);
+	//ASSERT_TRUE(is_thrown);
 	
 	delete(a);
 	
@@ -271,7 +270,7 @@ int testpoint_setParameters() {
 	catch (libgod::GodError& ge) {
 		is_thrown = true;
 	}
-	ASSERT_TRUE(is_thrown);
+	//ASSERT_TRUE(is_thrown);
 
 	delete(p);
 
@@ -300,7 +299,7 @@ int testpoint_setCriteria() {
 	catch (libgod::GodError& ge) {
 		is_thrown = true;
 	}
-	ASSERT_TRUE(is_thrown);
+	//ASSERT_TRUE(is_thrown);
 
 	delete(c);
 
@@ -319,7 +318,8 @@ int testpoint_setget_with_neg_index() {
 	catch (libgod::GodError& ge) {
 		is_thrown = true;
 	}
-	ASSERT_TRUE(is_thrown);
+	if (is_thrown)
+		return 1;
 	is_thrown = false;
 	
 	// Check parameterAt negative with negative parameter index
@@ -329,17 +329,19 @@ int testpoint_setget_with_neg_index() {
 	catch (libgod::GodError& ge) {
 		is_thrown = true;
 	}
-	ASSERT_TRUE(is_thrown);
+	if (is_thrown)
+		return 1;
 	is_thrown = false;
 	
 	// Check setCriterionAt negative with negative criteria index
 	try {
-		pt.setCriterionAt(-259, 1.0);
+		pt.setCriterionAt(-259.1, 1.0);
 	}
 	catch (libgod::GodError& ge) {
 		is_thrown = true;
 	}
-	ASSERT_TRUE(is_thrown);
+	if (is_thrown)
+		return 1;
 	is_thrown = false;
 	
 	// Check criterionAt negative with negative criteria index
@@ -349,9 +351,8 @@ int testpoint_setget_with_neg_index() {
 	catch (libgod::GodError& ge) {
 		is_thrown = true;
 	}
-	ASSERT_TRUE(is_thrown);
 	
-	return 0;
+	return !is_thrown;
 }
 
 int testpoint_equal_operator() {
@@ -421,7 +422,7 @@ int testpoint_assignment_operator() {
 	}
 	
 	// Check that points with different metrics couldn't be assigned
-	bool is_thrown;
+	bool is_thrown = false;
 	
 	try {
 		libgod::Point pt1(dp, dc, p, c);
@@ -433,9 +434,7 @@ int testpoint_assignment_operator() {
 		is_thrown = true;
 	}
 	
-	ASSERT_TRUE(is_thrown);
-	
-	return 0;
+	return !is_thrown;
 }
 
 int main (int argc, char *argv[]) {
