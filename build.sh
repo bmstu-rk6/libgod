@@ -24,7 +24,7 @@ build()
 	echo $CMAKE_COMMAND
 	$CMAKE_COMMAND
 	make 
-	make test
+	CTEST_OUTPUT_ON_FAILURE=YES make test
 	cd $OLDDIR
 }
 
@@ -32,7 +32,7 @@ build_fast()
 { 
 	cd build
 	make 
-	make test
+	CTEST_OUTPUT_ON_FAILURE=YES make test
 	cd $OLDDIR
 }
 

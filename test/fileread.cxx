@@ -1,18 +1,27 @@
 #include "godtest.h"
 
-int main(int argc, char* argv[])
+class FileReadTest : public FileComparer
 {
-	INIT_TEST(2)
-	try
+protected:
+	void actualProcess(std::string filename)
 	{
+		setFileName(filename);
+
 		libgod::GodASN1 ga;
-		ga.readFromFile( argv[1] );
-		ga.writeToFile( argv[2] );
+		EXPECT_NO_THROW(ga.readFromFile(m_inFilename));
+		EXPECT_NO_THROW(ga.writeToFile(m_outFilename));
+		EXPECT_TRUE(checkEquals());
 	}
-	catch (std::exception& e)
-	{
-		std::cerr << "Test error: " << e.what() << std::endl;
-		return 1;
-	}
-	return 0;
+};
+
+
+TEST_F(FileReadTest, process1)
+{
+	actualProcess("../input1.asn1");
 }
+
+TEST_F(FileReadTest, process2)
+{
+	actualProcess("../input2.asn1");
+}
+

@@ -51,24 +51,27 @@ TEST(Storage, ReadWrite)
 	aset2.add(randPoint(dp,dc));
 	aset2.add(randPoint(dp,dc));
 
-	std::ostringstream oss;
 
-	libgod::Storage storage("tmp.asn1");
+	libgod::Storage storage("../tmp.asn1");
 	storage.write(aunion);
-	oss << aunion;
+	std::ostringstream oss1;
+	oss1 << aunion;
 
 	libgod::Union nunion(dp,dc);
 	storage.read(nunion);
-	oss << nunion;
+	std::ostringstream oss2;
+	oss2 << nunion;
 
 	EXPECT_EQ(aunion.size(), dp);
 	EXPECT_EQ(aunion.size(), nunion.size());
+
+	EXPECT_EQ(oss1.str(), oss2.str());
 }
 
 void ReadNonExistentFileHelper()
 {
 	libgod::Union u;
-	libgod::Storage storage(std::string("___file_does_not_exists"));
+	libgod::Storage storage("../notfound");
 	storage.read(u);
 }
 

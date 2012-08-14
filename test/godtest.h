@@ -15,5 +15,17 @@ namespace asn1
 
 #include "gtest/gtest.h"
 
+class FileComparer : public ::testing::Test
+{
+protected:
+	std::string m_inFilename;
+	std::string m_outFilename;
+
+	virtual void SetUp();
+
+	void setFileName(std::string inFilename);
+	bool checkEquals();
+};
+
 #endif
 
