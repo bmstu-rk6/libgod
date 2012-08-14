@@ -10,22 +10,20 @@ Welcome to the [discussion wiki](https://github.com/bmstu-rk6/libgod/wiki)
 How to build
 =============
 
-Linux
--------
+Linux, Mac OS X
+------------------
 
-Install needed packages:
+1. Install needed packages with your favourite package manager:
 
 	sudo apt-get install cmake asn1c libboost-dev
 
-Build a library:
+2. Download and build [google test](http://code.google.com/p/googletest):
+
+	cmake . && make
+
+3. Adjust library path in `build.conf` if needed
+
+4. Build a god library:
 
 	./build.sh
 
-OS X
--------
-
-Install needed packages with your preferred method (homebrew, make).
-
-Build a library:
-
-	./build.sh
