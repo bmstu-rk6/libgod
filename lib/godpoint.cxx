@@ -76,6 +76,11 @@ namespace libgod
 	{
 		return !(*this == rhs);
 	}
+
+	bool Point::isBare() const
+	{
+		return false;
+	}
 	
 	size_t Point::dimParameter() const
 	{

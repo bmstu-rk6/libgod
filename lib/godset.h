@@ -8,6 +8,7 @@ namespace libgod
 	{
 		typedef Container<Point, std::vector<Point> > BaseType;
 	public:
+		Set();
 		Set(size_t dimParameter, size_t dimCriteria);
 		Set (const Set& rhs);
 

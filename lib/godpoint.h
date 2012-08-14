@@ -24,6 +24,8 @@ namespace libgod
 		bool operator== (const Point& rhs) const;
 		bool operator!= (const Point& rhs) const;
 
+		bool isBare() const;
+
 		size_t dimParameter() const;
 		size_t dimCriteria() const;
 

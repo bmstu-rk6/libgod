@@ -6,6 +6,12 @@
 
 namespace libgod
 {
+
+	Set::Set()
+		: Set::BaseType("set")
+	{
+	}
+
 	Set::Set(size_t dimParameter, size_t dimCriteria)
 		: Set::BaseType("set", dimParameter, dimCriteria)
 	{

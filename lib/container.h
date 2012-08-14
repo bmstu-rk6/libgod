@@ -83,6 +83,12 @@ namespace libgod
 				m_items == rhs.m_items;
 		}
 
+		void preConditionBare() const
+		{
+			if (m_isBare)
+				throw GodError("Trying to get data from bare " + m_classDesc);
+		}
+
 	public:
 		
 		typedef typename Inner::iterator iterator;
@@ -135,8 +141,14 @@ namespace libgod
 			return m_items.size();
 		}
 
+		bool empty() const
+		{
+			return m_items.empty();
+		}
+
 		void clear()
 		{
+			preConditionBare();
 			m_items.clear();
 		}
 
@@ -148,26 +160,31 @@ namespace libgod
 
 		iterator begin()
 		{
+			preConditionBare();
 			return m_items.begin();
 		}
 
 		const_iterator begin() const
 		{
+			preConditionBare();
 			return m_items.begin();
 		}
 
 		iterator end()
 		{
+			preConditionBare();
 			return m_items.end();
 		}
 
 		const_iterator end() const
 		{
+			preConditionBare();
 			return m_items.end();
 		}
 
 		iterator atIndex(size_t ind)
 		{
+			preConditionBare();
 			if (ind >= size())
 				throw GodOutOfRangeError(m_classDesc + " item ", ind, size());
 			iterator it = begin();
@@ -177,6 +194,7 @@ namespace libgod
 
 		const_iterator atIndex(size_t ind) const
 		{
+			preConditionBare();
 			if (ind >= size())
 				throw GodOutOfRangeError(m_classDesc + " item ", ind, size());
 			const_iterator it = begin();
@@ -186,25 +204,40 @@ namespace libgod
 
 		T& add()
 		{
+			preConditionBare();
 			m_items.push_back(T(m_dimParameter, m_dimCriteria));
 			return m_items.back();
 		}
 
 		void add(const T& item)
 		{
-			if (item.dimParameter() != m_dimParameter ||
-					item.dimCriteria() != m_dimCriteria)
-				throw GodError("added item has a different dimension than a set");
+			if (isBare())
+			{
+				if (item.isBare())
+					preConditionBare();
+				m_dimParameter = item.dimParameter();
+				m_dimCriteria = item.dimCriteria();
+				m_isBare = false;
+			}
+			else
+			{
+				preConditionBare();
+				if (item.dimParameter() != m_dimParameter ||
+						item.dimCriteria() != m_dimCriteria)
+					throw GodError("added item has a different dimension than a set");
+			}
 			m_items.push_back(item);
 		}
 
 		void remove(size_t ind)
 		{
+			preConditionBare();
 			remove(atIndex(ind));
 		}
 
 		void remove(iterator iter)
 		{
+			preConditionBare();
 			if (iter >= end())
 				throw GodOutOfRangeError(m_classDesc + " item ", std::distance(begin(), iter), size());
 			m_items.erase(iter);
@@ -213,6 +246,7 @@ namespace libgod
 		template <class Comp>
 		void sort(const Comp& comp)
 		{
+			preConditionBare();
 			details::genericSort(m_items, comp);
 		}
 
@@ -228,6 +262,7 @@ namespace libgod
 
 		void swapItems (size_t left_ind, size_t right_ind)
 		{
+			preConditionBare();
 			if (left_ind >= size())
 				throw GodOutOfRangeError(m_classDesc + " item ", left_ind, size());
 			if (right_ind >= size())

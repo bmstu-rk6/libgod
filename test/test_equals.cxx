@@ -32,6 +32,37 @@ int main(int argc, char* argv[])
 		}
 
 		{
+			// construct a bare set
+			libgod::Set s;
+			ASSERT_TRUE(s.isBare());
+			ASSERT_NONEQUAL(s.dimParameter(), dp);
+			ASSERT_NONEQUAL(s.dimCriteria(), dc);
+
+			// adding point to a bare set make it looks okay
+			libgod::Point p(dp,dc);
+			s.add(p);
+
+			ASSERT_TRUE(!s.isBare());
+			ASSERT_EQUAL(s.dimParameter(), dp);
+			ASSERT_EQUAL(s.dimCriteria(), dc);
+		}
+		{
+			// construct a bare set
+			libgod::Union u;
+			ASSERT_TRUE(u.isBare());
+			ASSERT_NONEQUAL(u.dimParameter(), dp);
+			ASSERT_NONEQUAL(u.dimCriteria(), dc);
+
+			// adding point to a bare set make it looks okay
+			libgod::Set s(dp,dc);
+			u.add(s);
+
+			ASSERT_TRUE(!u.isBare());
+			ASSERT_EQUAL(u.dimParameter(), dp);
+			ASSERT_EQUAL(u.dimCriteria(), dc);
+		}
+
+		{
 			libgod::Set aset2(dp,dc);
 			aset2.add(randPoint(dp,dc));
 			aset2.add(randPoint(dp,dc));
