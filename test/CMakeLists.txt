@@ -3,15 +3,19 @@ include(CTest)
 # all test programs
 
 set(GOD_ALL_TESTS
+	test_storage
+	test_comparable
+	test_equals
+	testpoint
+)
+
+set(GOD____IGNORED
 	fileread
 	filereadctor
 	testuniono
 	testunionio
 	testpoint
 	filewrite
-	test_storage
-	test_equals
-	test_comparable
 )
 
 # libgod::Point tests
@@ -47,15 +51,17 @@ set(GOD_ALL_INPUTS
 
 # library with testing primitives
 
-set(GODTEST_SOURCES
-	godtest.cxx
-	godtest.h
-)
+#set(GODTEST_SOURCES
+#	godtest.cxx
+#	godtest.h
+#)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/lib)
 include_directories(${CMAKE_SOURCE_DIR}/lib/gen)
 
-add_library(godtest STATIC ${GODTEST_SOURCES})
+include_directories(${GTEST_INCLUDE_DIRS})
+
+#add_library(godtest STATIC ${GODTEST_SOURCES})
 
 
 # tests targets
@@ -63,7 +69,7 @@ add_library(godtest STATIC ${GODTEST_SOURCES})
 foreach(test ${GOD_ALL_TESTS})
   add_executable(${test} ${test}.cxx)
   target_link_libraries(${test} god)
-	target_link_libraries(${test} godtest)
+	target_link_libraries(${test} ${GTEST_BOTH_LIBRARIES})
 endforeach(test ${TEST_testS})
 
 # copy test files to the build dir
@@ -73,8 +79,9 @@ foreach(input_test ${GOD_ALL_INPUTS})
 	if (LIBGOD_VERBOSE_TESTS)
   	message (STATUS " Copying ${input_test}")
 	endif (LIBGOD_VERBOSE_TESTS)
+	list(GET GOD_ALL_TESTS 0 ANY_TEST)
   add_custom_command (
-      TARGET     godtest
+			TARGET     ${ANY_TEST}
       POST_BUILD
       COMMAND    ${CMAKE_COMMAND}
 			ARGS       -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/input/${input_test} ${dest}
@@ -127,26 +134,26 @@ endmacro(def_test_plain_arg)
 # --------------------------------------------------------
 # actual test defintions
 
-def_test_output(testuniono nofound)
-def_test_output_cmp(testuniono input.union1)
-def_test_output_cmp(testuniono input.union2)
-def_test_output_cmp(testuniono input.union3)
-#def_test_output(testuniono input.unionrand)
-
-def_test_input_output(testunionio input.union1)
-def_test_input_output(testunionio input.union2)
-def_test_input_output(testunionio input.union3)
-#def_test_input_output(testunionio input.unionrand)
-
-def_test_input_output(fileread input1.asn1)
-def_test_input_output(fileread input2.asn1)
-
-def_test_input_output(filereadctor input1.asn1)
-def_test_input_output(filereadctor input2.asn1)
-
-def_test_output(filewrite input1.asn1)
-def_test_output(filewrite input2.asn1)
-
+#def_test_output(testuniono nofound)
+#def_test_output_cmp(testuniono input.union1)
+#def_test_output_cmp(testuniono input.union2)
+#def_test_output_cmp(testuniono input.union3)
+##def_test_output(testuniono input.unionrand)
+#
+#def_test_input_output(testunionio input.union1)
+#def_test_input_output(testunionio input.union2)
+#def_test_input_output(testunionio input.union3)
+##def_test_input_output(testunionio input.unionrand)
+#
+#def_test_input_output(fileread input1.asn1)
+#def_test_input_output(fileread input2.asn1)
+#
+#def_test_input_output(filereadctor input1.asn1)
+#def_test_input_output(filereadctor input2.asn1)
+#
+#def_test_output(filewrite input1.asn1)
+#def_test_output(filewrite input2.asn1)
+#
 def_test_output(test_storage input1.asn1)
 def_test_output(test_storage input2.asn1)
 
@@ -156,8 +163,8 @@ def_test_plain(test_comparable)
 # Test libgod::Point
 MATH(EXPR i "1")
 foreach(testname ${GOD_POINT_TESTS})
-	def_test_plain_arg(${testname} testpoint ${i})
-	MATH(EXPR i "${i}+1")
+####	def_test_plain_arg(${testname} testpoint ${i})
+####	MATH(EXPR i "${i}+1")
 endforeach()
 
 
