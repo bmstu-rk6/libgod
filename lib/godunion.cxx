@@ -4,6 +4,7 @@
 #include "godpoint.h"
 #include "godset.h"
 #include "godunion.h"
+#include "godmetadata.h"
 #include "comparable.h"
 
 namespace libgod

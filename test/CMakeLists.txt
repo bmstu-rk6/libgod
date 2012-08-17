@@ -12,6 +12,7 @@ set(GOD_ALL_TESTS
 	filewrite
 	testunionio
 	testuniono
+	testmetadata
 )
 
 # all test data files

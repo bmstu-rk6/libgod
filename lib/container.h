@@ -33,6 +33,9 @@ namespace libgod
 		Inner m_items;
 
 		const std::string m_classDesc;
+		
+		Metadata m_metadata;
+
 
 		Container (const std::string& classDesc, size_t dimParameter, size_t dimCriteria)
 			: m_isBare(false),
@@ -49,7 +52,8 @@ namespace libgod
 			 	m_dimParameter(rhs.m_dimParameter),
 				m_dimCriteria(rhs.m_dimCriteria),
 				m_items(rhs.m_items),
-				m_classDesc(rhs.m_classDesc)
+				m_classDesc(rhs.m_classDesc),
+				m_metadata(rhs.m_metadata)
 			{
 				if (m_dimParameter <= 0 || m_dimCriteria <= 0)
 					throw GodError("dimensions should be posititive");
@@ -102,6 +106,7 @@ namespace libgod
 				{
 					m_dimParameter = rhs.m_dimParameter;
 					m_dimCriteria = rhs.m_dimCriteria;
+					m_metadata = rhs.m_metadata;
 				}
 				else
 				{
@@ -111,11 +116,13 @@ namespace libgod
 					}
 				}
 				m_items = rhs.m_items;
+				m_metadata = rhs.m_metadata;
 				m_isBare = false;
 			}
 			return *this;
 		}
 
+		// XXX: comparison doesn't care about metadata. is it okay?
 		bool operator== (const SelfType& rhs) const
 		{
 			return fullyEquals(rhs);
@@ -155,6 +162,16 @@ namespace libgod
 		bool isBare() const
 		{
 			return m_isBare;
+		}
+
+		Metadata& metadata()
+		{
+			return m_metadata;
+		}
+		
+		const Metadata& metadata() const
+		{
+			return m_metadata;
 		}
 
 

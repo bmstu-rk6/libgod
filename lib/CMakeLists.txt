@@ -17,6 +17,7 @@ set(GOD_SOURCES
 	common.h
 	asserts.h
 	comparable.h
+	godmetadata.h
 )
 
 add_subdirectory(gen)

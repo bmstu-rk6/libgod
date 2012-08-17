@@ -9,6 +9,7 @@
 #include <cstring>
 #include <vector>
 #include <list>
+#include <set>
 #include <boost/shared_ptr.hpp>
 #include <boost/scoped_ptr.hpp>
 #include <boost/scoped_array.hpp>
@@ -16,6 +17,7 @@
 #include <boost/format.hpp>
 
 #include "goderror.h"
+#include "godmetadata.h"
 #include "container.h"
 #include "godpoint.h"
 #include "godset.h"

@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <set>
 
 #include <boost/type_traits/is_pointer.hpp>
 #include <boost/utility/enable_if.hpp>
