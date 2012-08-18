@@ -20,7 +20,7 @@ TEST(Comparable, Strict)
 	{
 		libgod::Point p1 = randPoint(dp,dc);
 		libgod::Point p2 = randPoint(dp,dc);
-		ASSERT_TRUE(p1 == p2 || c(p1,p2) != c(p2,p1));
+		EXPECT_TRUE(p1 == p2 || c(p1,p2) != c(p2,p1));
 	}
 	libgod::Set s1(dp,dc);
 	libgod::Set s2(dp,dc);
@@ -29,9 +29,9 @@ TEST(Comparable, Strict)
 	s2.add(randPoint(dp,dc));
 	s2.add(randPoint(dp,dc));
 	s2.add(randPoint(dp,dc));
-	ASSERT_TRUE(c(s1,s2));
-	ASSERT_TRUE(!c(s1,s1));
-	ASSERT_TRUE(!c(s2,s1));
+	EXPECT_TRUE(c(s1,s2));
+	EXPECT_TRUE(!c(s1,s1));
+	EXPECT_TRUE(!c(s2,s1));
 }
 
 TEST(Comparable, NonStrict)
@@ -45,15 +45,15 @@ TEST(Comparable, NonStrict)
 	// Check set order when point slightly dffers
 	libgod::Set s3 = s1;
 	s3[0].setParameterAt(0, s1[0].parameterAt(0)+1);
-	ASSERT_TRUE(c(s1,s3));
-	ASSERT_TRUE(!c(s3,s1));
+	EXPECT_TRUE(c(s1,s3));
+	EXPECT_TRUE(!c(s3,s1));
 	s3[0].setParameterAt(0, s1[0].parameterAt(0)-1);
-	ASSERT_TRUE(!c(s1,s3));
-	ASSERT_TRUE(c(s3,s1));
+	EXPECT_TRUE(!c(s1,s3));
+	EXPECT_TRUE(c(s3,s1));
 
 	libgod::Set s4(dp+1,dc);
-	ASSERT_TRUE(c(s1,s4));
-	ASSERT_TRUE(!c(s4,s1));
+	EXPECT_TRUE(c(s1,s4));
+	EXPECT_TRUE(!c(s4,s1));
 }
 
 TEST(Comparable, Union)
@@ -76,12 +76,12 @@ TEST(Comparable, Union)
 	u2.add(s1);
 	u2.add(s1);
 	u2.add(s1);
-	ASSERT_TRUE(c(u1,u2));
-	ASSERT_TRUE(!c(u2,u1));
+	EXPECT_TRUE(c(u1,u2));
+	EXPECT_TRUE(!c(u2,u1));
 
 	u2.clear();
 	u2.add(s2);
 	u2.add(s2);
-	ASSERT_TRUE(c(u1,u2));
-	ASSERT_TRUE(!c(u2,u1));
+	EXPECT_TRUE(c(u1,u2));
+	EXPECT_TRUE(!c(u2,u1));
 }

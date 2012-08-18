@@ -21,6 +21,7 @@ TEST(Storage, Numeric)
 	aset1.add(randPoint(dp,dc));
 	aset1.add(randPoint(dp,dc));
 
+	// should assert because of possible segfault
 	ASSERT_EQ(aunion.size(), 1);
 	EXPECT_EQ(aunion[0].size(), 2);
 
@@ -29,10 +30,12 @@ TEST(Storage, Numeric)
 	aset2.add(randPoint(dp,dc));
 	aset2.add(randPoint(dp,dc));
 
+	// should assert because of possible segfault
 	ASSERT_EQ(aunion.size(), 2);
 	EXPECT_EQ(aunion[1].size(), 3);
 	EXPECT_EQ(aunion[0].size(), 2);
 
+	// should assert because of possible segfault
 	ASSERT_EQ(aunion.dimParameter(), dp);
 	EXPECT_EQ(aunion[0].dimParameter(), dp);
 	EXPECT_EQ(aunion[0][0].dimParameter(), dp);
@@ -77,7 +80,7 @@ void ReadNonExistentFileHelper()
 
 TEST(Storage, ReadNonExistentFile)
 {
-	ASSERT_THROW(ReadNonExistentFileHelper(), libgod::GodError);
+	EXPECT_THROW(ReadNonExistentFileHelper(), libgod::GodError);
 }
 
 TEST(Storage, StreamOut)

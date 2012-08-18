@@ -46,6 +46,11 @@ namespace libgod
 		{
 			return m_name == rhs.m_name && m_value == rhs.m_value;
 		}
+		
+		bool operator!= (const MetadataEntry& rhs) const
+		{
+			return !(*this == rhs);
+		}
 	
 		bool operator< (const MetadataEntry& rhs) const
 		{
@@ -65,9 +70,14 @@ namespace libgod
 	{
 		typedef std::set<MetadataEntry> MetadataSet;
 
+	public:
+
+		typedef MetadataSet::const_iterator const_iterator;
+
+	private:
 		MetadataSet m_metadataSet;
 		
-		MetadataSet::const_iterator find_iterator(std::string name) const
+		const_iterator find_iterator(std::string name) const
 		{
 			return m_metadataSet.find(MetadataEntry(name,""));
 		}
@@ -95,7 +105,7 @@ namespace libgod
 
 		const MetadataEntry& get (std::string name)
 		{
-			MetadataSet::const_iterator it = find_iterator(name);
+			const_iterator it = find_iterator(name);
 			if (it == m_metadataSet.end())
 				throw GodError("Metadata entry " + name + " not found");
 			return *it;
@@ -105,6 +115,17 @@ namespace libgod
 		{
 			return m_metadataSet.size();
 		}
+
+		const_iterator begin() const
+		{
+			return m_metadataSet.begin();
+		}
+		
+		const_iterator end() const
+		{
+			return m_metadataSet.end();
+		}
+		
 	};
 
 
