@@ -1,23 +1,32 @@
+set(GOD_INCLUDES
+	${CMAKE_SOURCE_DIR}/include/comparable.h
+	${CMAKE_SOURCE_DIR}/include/container.h
+	${CMAKE_SOURCE_DIR}/include/goderror.h
+	${CMAKE_SOURCE_DIR}/include/godmetadata.h
+	${CMAKE_SOURCE_DIR}/include/godpoint.h
+	${CMAKE_SOURCE_DIR}/include/godset.h
+	${CMAKE_SOURCE_DIR}/include/godunion.h
+	${CMAKE_SOURCE_DIR}/include/libgod.h
+)
+
 set(GOD_SOURCES
-	libgod.cxx
+	common.h
 	godasn1.cxx
 	godasn1.h
-	godpoint.cxx
-	godpoint.h
-	godset.cxx
-	godset.h
-	godunion.cxx
-	godunion.h
 	godbridge.cxx
 	godbridge.h
-	goderror.h
+	godmetadata.cxx
+	godpoint.cxx
+	godset.cxx
+	godunion.cxx
+	libgod.cxx
 	storage.cxx
 	storage.h
-	container.h
-	common.h
-	comparable.h
-	godmetadata.cxx
-	godmetadata.h
+)
+
+set(GOD_ALL_SOURCES 
+	${GOD_INCLUDES}
+	${GOD_SOURCES}
 )
 
 add_subdirectory(gen)
@@ -25,7 +34,7 @@ include_directories(gen)
 include_directories(${CMAKE_SOURCE_DIR}/lib)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
-add_library(god SHARED ${GOD_SOURCES} ${GOD_GENERATED_ASN_SOURCES} ${GOD_GENERATED_SUPPORT_SOURCES})
+add_library(god SHARED ${GOD_ALL_SOURCES} ${GOD_GENERATED_ASN_SOURCES} ${GOD_GENERATED_SUPPORT_SOURCES})
 
 configure_file(
 	"${CMAKE_SOURCE_DIR}/include/libgod-config.h.in"
@@ -42,16 +51,7 @@ set_target_properties(god PROPERTIES
 
 install(TARGETS god DESTINATION lib)
 install(FILES
-					${CMAKE_SOURCE_DIR}/include/libgod.h
-					${CMAKE_SOURCE_DIR}/lib/goderror.h
-					${CMAKE_SOURCE_DIR}/lib/container.h
-					${CMAKE_SOURCE_DIR}/lib/godpoint.h
-					${CMAKE_SOURCE_DIR}/lib/godset.h
-					${CMAKE_SOURCE_DIR}/lib/godunion.h
-					${CMAKE_SOURCE_DIR}/lib/godmetadata.h
-					${CMAKE_SOURCE_DIR}/lib/storage.h
-					${CMAKE_SOURCE_DIR}/lib/container.h
-					${CMAKE_SOURCE_DIR}/lib/comparable.h
+					${GOD_INCLUDES}
 					${CMAKE_SOURCE_DIR}/include/libgod-config.h
 				DESTINATION include/libgod)
 
