@@ -1,6 +1,6 @@
 #include "godtest.h"
 
-class FileUnionOTest : public FileComparer
+class FileUnionOTest : public FileComparer, public ::testing::Test
 {
 };
 

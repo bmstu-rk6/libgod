@@ -7,9 +7,7 @@ set(GOD_ALL_TESTS
 	test_comparable
 	test_equals
 	testpoint
-	fileread
-	filereadctor
-	filewrite
+	testasn1
 	testunionio
 	testuniono
 	testmetadata

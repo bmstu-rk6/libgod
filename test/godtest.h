@@ -6,25 +6,28 @@
 #include <sys/types.h>
 
 #include "libgod.h"
-// for some tests
-namespace asn1
-{
-#include "God.h"
-};
-#include "godasn1.h"
 
 #include "gtest/gtest.h"
 
-class FileComparer : public ::testing::Test
+// Helper class to compare gold file with a generated output file
+class FileComparer 
 {
 protected:
 	std::string m_inFilename;
 	std::string m_outFilename;
 
-	virtual void SetUp();
+	void setFileName (std::string fileName);
 
-	void setFileName(std::string inFilename);
 	bool checkEquals();
+};
+
+// Class for inherit test from
+class FileComparerParametrized : public FileComparer, public ::testing::TestWithParam<std::string>
+{
+	virtual void SetUp()
+	{
+		setFileName(GetParam());
+	}
 };
 
 #endif

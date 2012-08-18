@@ -47,6 +47,7 @@ install(FILES
 					${CMAKE_SOURCE_DIR}/lib/godpoint.h
 					${CMAKE_SOURCE_DIR}/lib/godset.h
 					${CMAKE_SOURCE_DIR}/lib/godunion.h
+					${CMAKE_SOURCE_DIR}/lib/godmetadata.h
 					${CMAKE_SOURCE_DIR}/lib/storage.h
 					${CMAKE_SOURCE_DIR}/lib/container.h
 					${CMAKE_SOURCE_DIR}/lib/comparable.h

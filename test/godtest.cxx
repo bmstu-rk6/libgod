@@ -40,15 +40,11 @@ namespace fileutils
 	}
 };
 
-
-void FileComparer::setFileName(std::string inFilename)
+void FileComparer::setFileName(std::string filename)
 {
-	m_inFilename = inFilename;
-	m_outFilename = inFilename+".out";
-}
+	m_inFilename = filename;
+	m_outFilename = filename +".out";
 
-void FileComparer::SetUp()
-{
 	if (fileutils::existsFile(m_outFilename))
 		fileutils::removeFile(m_outFilename);
 }
