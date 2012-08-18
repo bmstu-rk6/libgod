@@ -101,7 +101,7 @@ TEST_F(FileUnionOTest, union3)
 	libgod::Union un(dp,dc);
 
 	std::ifstream datafile;
-	datafile.open((m_inFilename+".bin").c_str(), std::ios::binary | std::ios::in );
+	datafile.open((m_inFilename+".bin").c_str(), std::ios::binary | std::ios::in);
 
 	for (int i=0; i<10; i++) {
 		libgod::Set& s = un.add();

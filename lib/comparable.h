@@ -34,11 +34,11 @@ namespace libgod
 			if (right.dimParameter() < left.dimParameter()) return false;
 			if (left.dimCriteria() < right.dimCriteria()) return true;
 			if (right.dimCriteria() < left.dimCriteria()) return false;
-			if (std::lexicographical_compare( left.begin(), left.end(), 
-						right.begin(), right.end(), *this )) 
+			if (std::lexicographical_compare(left.begin(), left.end(), 
+						right.begin(), right.end(), *this)) 
 				return true;
-			if (std::lexicographical_compare( right.begin(), right.end(), 
-						left.begin(), left.end(), *this )) 
+			if (std::lexicographical_compare(right.begin(), right.end(), 
+						left.begin(), left.end(), *this)) 
 				return false;
 			return false;
 		}

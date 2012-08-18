@@ -10,8 +10,8 @@ namespace libgod
 	{
 		if (m_dimParameter <= 0 || m_dimCriteria <= 0)
 			throw GodError("dimensions should be posititive");
-		m_parameters.reset( new double[m_dimParameter] );
-		m_criteria.reset( new double[m_dimCriteria] );
+		m_parameters.reset(new double[m_dimParameter]);
+		m_criteria.reset(new double[m_dimCriteria]);
 		memset(m_parameters.get(), 0, m_dimParameter * sizeof(double));
 		memset(m_criteria.get(), 0, m_dimCriteria * sizeof(double));
 	}
@@ -26,8 +26,8 @@ namespace libgod
 			throw GodError("null pointers detected at ctor");
 		if (parameters == criteria)
 			throw GodError("passed the same pointer for parameters and criteria arrays, possibly a bug");
-		m_parameters.reset( new double[m_dimParameter] );
-		m_criteria.reset( new double[m_dimCriteria] );
+		m_parameters.reset(new double[m_dimParameter]);
+		m_criteria.reset(new double[m_dimCriteria]);
 		memcpy(m_parameters.get(), parameters, m_dimParameter * sizeof(double));
 		memcpy(m_criteria.get(), criteria, m_dimCriteria * sizeof(double));
 	}

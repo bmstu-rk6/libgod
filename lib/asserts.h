@@ -17,8 +17,8 @@ namespace libgod
 	{
 		bool result = left;
 		if (!result)
-			throw assert_exception( boost::format( "assertTrue at %d : %s - %s" )
-					% line % (result?"true":"false") % left );
+			throw assert_exception(boost::format("assertTrue at %d : %s - %s")
+					% line % (result?"true":"false") % left);
 	}
 
 
@@ -27,8 +27,8 @@ namespace libgod
 	{
 		bool result = left == right;
 		if (!result)
-			throw assert_exception( boost::format( "assertEqual at %d : %s - %s and %s" )
-					% line % (result?"true":"false") % left % right );
+			throw assert_exception(boost::format("assertEqual at %d : %s - %s and %s")
+					% line % (result?"true":"false") % left % right);
 	}
 
 
@@ -37,14 +37,14 @@ namespace libgod
 	{
 		bool result = left != right;
 		if (!result)
-			throw assert_exception( boost::format( "assertNonEqual at %d : %s - %s and %s" )
-					% line % (result?"true":"false") % left % right );
+			throw assert_exception(boost::format("assertNonEqual at %d : %s - %s and %s")
+					% line % (result?"true":"false") % left % right);
 	}
 
 	inline void assertError (const std::string& s, unsigned line)
 	{
-		throw assert_exception( boost::format( "assertError at %d : said %s" )
-				% line % s );
+		throw assert_exception(boost::format("assertError at %d : said %s")
+				% line % s);
 	}
 };
 

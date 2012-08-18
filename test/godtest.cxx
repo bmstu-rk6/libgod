@@ -8,12 +8,12 @@ namespace fileutils
 		if (!ifs)
 			throw libgod::GodNotFoundError(filename.c_str());
 
-		ifs.exceptions ( std::ios_base::failbit | std::ios_base::badbit);
+		ifs.exceptions (std::ios_base::failbit | std::ios_base::badbit);
 		ifs.seekg(0, std::ios_base::end);
 			
 		bytes.resize(ifs.tellg());
 		ifs.seekg(0, std::ios_base::beg);
-		ifs.read( (char*)&bytes[0], bytes.size());
+		ifs.read((char*)&bytes[0], bytes.size());
 	}
 
 	bool equalsFiles(std::string filename1, std::string filename2) 
