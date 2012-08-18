@@ -16,6 +16,7 @@ set(GOD_SOURCES
 	container.h
 	common.h
 	comparable.h
+	godmetadata.cxx
 	godmetadata.h
 )
 

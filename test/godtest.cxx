@@ -54,3 +54,9 @@ bool FileComparer::checkEquals()
 	return fileutils::equalsFiles(m_inFilename, m_outFilename);
 }
 
+
+void FileComparerParametrized::SetUp()
+{
+	setFileName(GetParam());
+}
+

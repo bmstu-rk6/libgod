@@ -24,10 +24,7 @@ protected:
 // Class for inherit test from
 class FileComparerParametrized : public FileComparer, public ::testing::TestWithParam<std::string>
 {
-	virtual void SetUp()
-	{
-		setFileName(GetParam());
-	}
+	virtual void SetUp();
 };
 
 #endif
