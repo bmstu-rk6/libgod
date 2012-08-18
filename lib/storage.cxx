@@ -5,7 +5,6 @@
 #include "godset.h"
 #include "godunion.h"
 #include "goderror.h"
-#include "asserts.h"
 #include "storage.h"
 
 namespace asn1

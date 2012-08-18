@@ -15,7 +15,6 @@ set(GOD_SOURCES
 	storage.h
 	container.h
 	common.h
-	asserts.h
 	comparable.h
 	godmetadata.h
 )

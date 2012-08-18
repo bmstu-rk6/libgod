@@ -6,7 +6,6 @@
 #include "godunion.h"
 #include "storage.h"
 #include "goderror.h"
-#include "asserts.h"
 
 namespace asn1
 {
@@ -133,7 +132,7 @@ namespace libgod
 				throw GodError(errReason, errno);
 		}
 
-		ASSERT_EQUAL((size_t)asnGod->Union.list.count, aunion.size());
+		GOD_ASSERT((size_t)asnGod->Union.list.count == aunion.size());
 	}
 		
 	void GodBridge::convertToASN1Data (const MetadataEntry& ametadataEntry, asn1::MetadataEntry* asnMetadataEntry)
@@ -231,7 +230,7 @@ namespace libgod
 		// create non-bare union with right dimensions
 		aunion = libgod::Union(dimParameter, dimCriteria);
 		
-		ASSERT_EQUAL(god->Union.list.count, setsCount);
+		GOD_ASSERT(god->Union.list.count == setsCount);
 
 		// god.metadataGlobal
 		convertFromASN1Data(aunion.metadata(), god->metadataGlobal);
@@ -248,7 +247,7 @@ namespace libgod
 			if (asn1::asn_INTEGER2long(&dataSet->pointCount, &pointCount))
 				throw GodError(errReason, errno);
 
-			ASSERT_EQUAL(dataSet->points.list.count, pointCount);
+			GOD_ASSERT(dataSet->points.list.count == pointCount);
 
 			for (size_t pointIndex = 0; pointIndex < (size_t)pointCount; ++pointIndex)
 			{
@@ -256,8 +255,8 @@ namespace libgod
 
 				dataPoint = dataSet->points.list.array[pointIndex];
 			
-				ASSERT_EQUAL(dataPoint->parameters.list.count, dimParameter);
-				ASSERT_EQUAL(dataPoint->criteria.list.count, dimCriteria);
+				GOD_ASSERT(dataPoint->parameters.list.count == dimParameter);
+				GOD_ASSERT(dataPoint->criteria.list.count == dimCriteria);
 
 				for (size_t ind = 0; ind < (size_t)dimParameter; ++ind)
 				{

@@ -50,6 +50,23 @@ namespace libgod
 		{
 		}
 	};
+	
+	// Assert
+  class AssertError : public GodError
+	{
+  public:
+    explicit AssertError (const std::string& message) : GodError(message){}
+    explicit AssertError (const boost::format& message) : GodError(message){}
+  };
+
+	#define GOD_ASSERT(Expr1) libgod::assertTrue((Expr1), __LINE__)
+	template <class T>
+	void assertTrue (const T& left, unsigned line)
+	{
+		if (!(bool)left)
+			throw AssertError(boost::format("assertTrue at %d : %s - %s")
+					% line % (left?"true":"false") % left);
+	}
 
 };
 
