@@ -22,6 +22,8 @@ namespace libgod
 	std::ostream& operator<< (std::ostream& os, const Union& rhs);
 	std::ostream& operator<< (std::ostream& os, const Set& rhs);
 	std::ostream& operator<< (std::ostream& os, const Point& rhs);
+	std::ostream& operator<< (std::ostream& os, const Metadata& rhs);
+	std::ostream& operator<< (std::ostream& os, const MetadataEntry& rhs);
 
 };
 

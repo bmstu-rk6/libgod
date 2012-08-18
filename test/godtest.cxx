@@ -2,34 +2,26 @@
 
 namespace fileutils
 {
-	int compareFiles(FILE* f1, FILE* f2) 
+	void readFile (std::string filename, std::vector<unsigned char>& bytes)
 	{
-		int N = 10000;
-		char buf1[N];
-		char buf2[N];
-		
-		do {
-			size_t r1 = fread(buf1, 1, N, f1);
-			size_t r2 = fread(buf2, 1, N, f2);
+		std::ifstream ifs(filename.c_str(), std::ios_base::binary);
+		if (!ifs)
+			throw libgod::GodNotFoundError(filename.c_str());
 
-			if (r1 != r2 || memcmp(buf1, buf2, r1)) {
-				return 0; 
-			}
-		} while (!feof(f1) && !feof(f2));
-
-		return feof(f1) && feof(f2);
+		ifs.exceptions ( std::ios_base::failbit | std::ios_base::badbit);
+		ifs.seekg(0, std::ios_base::end);
+			
+		bytes.resize(ifs.tellg());
+		ifs.seekg(0, std::ios_base::beg);
+		ifs.read( (char*)&bytes[0], bytes.size());
 	}
 
 	bool equalsFiles(std::string filename1, std::string filename2) 
 	{
-		FILE *f1 = fopen(filename1.c_str(), "r");
-		FILE *f2 = fopen(filename2.c_str(), "r");
-		bool result = f1 && f2 && compareFiles(f1, f2);
-		if (f1)
-			fclose(f1);
-		if (f2)
-			fclose(f2);
-		return result;
+		std::vector<unsigned char> bytes1, bytes2;
+		readFile(filename1, bytes1);
+		readFile(filename2, bytes2);
+		return bytes1 == bytes2;
 	}
 
 	bool existsFile(std::string filename) 

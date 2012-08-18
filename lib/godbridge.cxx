@@ -67,6 +67,13 @@ namespace libgod
 		asn1::Point *asnPoint;
 
 		zeroed(*asnSet);
+		
+		// god.set.setMetadata
+		if (!aset.metadata().empty())
+		{
+			asnSet->setMetadata = newzeroed<asn1::Metadata>();
+			convertToASN1Data(aset.metadata(), asnSet->setMetadata);
+		}
 
 		// god.union.set
 		if (asn1::asn_long2INTEGER(&asnSet->pointCount, aset.size()))
@@ -100,6 +107,13 @@ namespace libgod
 		if (OCTET_STRING_fromString(&asnGod->header.comment, ""))
 			throw GodError(errReason, errno);
 
+		// god.metadataGlobal
+		if (!aunion.metadata().empty())
+		{
+			asnGod->metadataGlobal = newzeroed<asn1::Metadata>();
+			convertToASN1Data(aunion.metadata(), asnGod->metadataGlobal);
+		}
+
 		// god.metric
 		if (asn1::asn_long2INTEGER(&asnGod->metric.parameterDim, aunion.dimParameter()))
 			throw GodError(errReason, errno);
@@ -121,6 +135,36 @@ namespace libgod
 
 		ASSERT_EQUAL((size_t)asnGod->Union.list.count, aunion.size());
 	}
+		
+	void GodBridge::convertToASN1Data (const MetadataEntry& ametadataEntry, asn1::MetadataEntry* asnMetadataEntry)
+	{
+		const std::string errReason = "Converting metadataEntry to ASN1 failed";
+		zeroed(*asnMetadataEntry);
+
+		if (OCTET_STRING_fromString(&asnMetadataEntry->name, ametadataEntry.name().c_str()))
+			throw GodError(errReason, errno);
+		
+		if (OCTET_STRING_fromString(&asnMetadataEntry->value, ametadataEntry.value().c_str()))
+			throw GodError(errReason, errno);
+	}
+		
+	void GodBridge::convertToASN1Data (const Metadata& ametadata, asn1::Metadata* asnMetadata)
+	{
+		const std::string errReason = "Converting metadata to ASN1 failed";
+		asn1::MetadataEntry *asnMetadataEntry;
+
+		zeroed(*asnMetadata);
+
+		for (libgod::Metadata::const_iterator it = ametadata.begin(); it != ametadata.end(); ++it)
+		{
+			asnMetadataEntry = newzeroed<asn1::MetadataEntry>();
+			convertToASN1Data(*it, asnMetadataEntry);
+			
+			// push the metadata entry to the sequence
+			if (ASN_SET_ADD(asnMetadata, asnMetadataEntry))
+				throw GodError(errReason, errno);
+		}
+	}
 
 	int stringFromOctetString (const asn1::UTF8String_t *s, std::string& result)
 	{
@@ -129,6 +173,28 @@ namespace libgod
 		else
 			result.clear();
 		return 0;
+	}
+
+	void GodBridge::convertFromASN1Data (Metadata& ametadata, const asn1::Metadata* metadata)
+	{
+		const std::string errReason = "Converting from ASN1 failed";
+		if (metadata)
+		{
+			for (size_t mindex = 0; mindex < (size_t)metadata->list.count; ++mindex)
+			{
+				std::string name, value;
+				libgod::MetadataEntry ametadataEntry;
+				asn1::MetadataEntry *dataMetadataEntry;
+				
+				dataMetadataEntry = metadata->list.array[mindex];
+				if (stringFromOctetString(&dataMetadataEntry->name, name))
+					throw GodError(errReason, errno);
+				if (stringFromOctetString(&dataMetadataEntry->value, value))
+					throw GodError(errReason, errno);
+
+				ametadata.add(ametadataEntry);
+			}
+		}
 	}
 
 	void GodBridge::convertFromASN1Data (Union& aunion, const asn1::God* god)
@@ -167,11 +233,18 @@ namespace libgod
 		
 		ASSERT_EQUAL(god->Union.list.count, setsCount);
 
+		// god.metadataGlobal
+		convertFromASN1Data(aunion.metadata(), god->metadataGlobal);
+
 		for (size_t setIndex = 0; setIndex < (size_t)setsCount; ++setIndex)
 		{
 			libgod::Set& aset = aunion.add();
 
 			dataSet = god->Union.list.array[setIndex];
+
+			// set.setMetadata
+			convertFromASN1Data(aset.metadata(), dataSet->setMetadata);
+
 			if (asn1::asn_INTEGER2long(&dataSet->pointCount, &pointCount))
 				throw GodError(errReason, errno);
 

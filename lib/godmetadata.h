@@ -58,13 +58,6 @@ namespace libgod
 		}
 	};
 	
-	inline std::ostream& operator<< (std::ostream& os, const MetadataEntry& rhs)
-	{
-		os << rhs.name() << "=" << rhs.value();
-		return os;
-	}
-
-
 
 	class Metadata
 	{
@@ -136,7 +129,6 @@ namespace libgod
 		}
 		
 	};
-
 
 };
 

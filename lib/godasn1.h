@@ -34,6 +34,8 @@ namespace libgod
 		void dump (std::ostream& os, asn1::God* asnStruct);
 		void dump (std::ostream& os, asn1::Set* asnStruct);
 		void dump (std::ostream& os, asn1::Point* asnStruct);
+		void dump (std::ostream& os, asn1::Metadata* asnStruct);
+		void dump (std::ostream& os, asn1::MetadataEntry* asnStruct);
 	};
 
 };

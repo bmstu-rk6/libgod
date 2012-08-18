@@ -122,3 +122,18 @@ TEST_F(MetadataTest, iterators)
 	compareKeys(un1.metadata(), boost::assign::list_of("foo")("bar")("baz"));
 }
 
+TEST_F(MetadataTest, ostream)
+{
+	std::ostringstream oss1, oss2;
+	libgod::Union un1;
+	oss1 << un1.metadata();
+
+	un1.metadata().add(libgod::MetadataEntry("foo", "foo123"));
+	un1.metadata().add(libgod::MetadataEntry("bar", "bar123"));
+
+	oss2 << un1.metadata();
+	ASSERT_FALSE(oss1.str().empty());
+	ASSERT_FALSE(oss2.str().empty());
+	ASSERT_GE(oss2.str().size(), oss1.str().size());
+}
+

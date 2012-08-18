@@ -41,6 +41,18 @@ namespace libgod
 		m_impl->convertFromASN1Data(aunion, m_impl->asn1Storage.getRoot().get());
 	}
 	
+	std::ostream& operator<< (std::ostream& os, const Metadata& rhs)
+	{
+		genericDump<asn1::Metadata, Metadata>(os,rhs);
+		return os;
+	}
+	
+	std::ostream& operator<< (std::ostream& os, const MetadataEntry& rhs)
+	{
+		genericDump<asn1::MetadataEntry, MetadataEntry>(os,rhs);
+		return os;
+	}
+	
 	std::ostream& operator<< (std::ostream& os, const Union& rhs)
 	{
 		genericDump<asn1::God, Union>(os,rhs);
