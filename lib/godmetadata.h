@@ -90,11 +90,15 @@ namespace libgod
 
 		void add (const MetadataEntry& me)
 		{
+			if (is(me.name()))
+					throw GodError("Metadata entry " + me.name() + " already exists");
 			m_metadataSet.insert(me);
 		}
 
 		void remove (std::string name)
 		{
+			if (!is(name))
+				throw GodError("Metadata entry " + name + " does not exist");
 			m_metadataSet.erase(MetadataEntry(name,""));
 		}
 
@@ -107,13 +111,18 @@ namespace libgod
 		{
 			const_iterator it = find_iterator(name);
 			if (it == m_metadataSet.end())
-				throw GodError("Metadata entry " + name + " not found");
+				throw GodError("Metadata entry " + name + " does not exist");
 			return *it;
 		}
 
 		size_t size() const
 		{
 			return m_metadataSet.size();
+		}
+
+		bool empty() const
+		{
+			return m_metadataSet.empty();
 		}
 
 		const_iterator begin() const
