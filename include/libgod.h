@@ -15,6 +15,7 @@
 #include <boost/scoped_array.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/format.hpp>
+#include <boost/operators.hpp>
 
 #include "goderror.h"
 #include "godmetadata.h"

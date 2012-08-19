@@ -4,7 +4,14 @@
 namespace libgod
 {
 
-	class Point
+	class Point 
+    : boost::addable< Point
+    , boost::subtractable< Point     
+    , boost::equality_comparable< Point
+    , boost::partially_ordered< Point
+    , boost::dividable< Point, double
+    , boost::multipliable< Point, double
+      > > > > > >
 	{
 		typedef boost::scoped_array<double> ArrayType;
 
@@ -13,6 +20,9 @@ namespace libgod
 
 		ArrayType m_parameters;
 		ArrayType m_criteria;
+		
+		void preConditionOperator(const Point& rhs) const;
+
 	public:
 
 		Point(size_t dimParameter, size_t dimCriteria);
@@ -22,7 +32,6 @@ namespace libgod
 		Point& operator= (const Point& rhs);
 
 		bool operator== (const Point& rhs) const;
-		bool operator!= (const Point& rhs) const;
 
 		bool isBare() const;
 
@@ -40,6 +49,14 @@ namespace libgod
 		double* criteria();
 		const double* criteria() const;
 		void setCriteria(const double* value);
+
+		// boost::operators support
+		// boost provides following operators: <=, >=, >, +, -, /, *, !=
+		bool operator<(const Point& rhs) const;
+		Point operator+=(const Point& rhs);
+		Point operator-=(const Point& rhs);
+		Point operator*=(double mult);
+		Point operator/=(double mult);
 	};
 
 

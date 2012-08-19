@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgod.h"
 #include "godpoint.h"
+#include "comparable.h"
 
 namespace libgod
 {
@@ -47,6 +48,12 @@ namespace libgod
 	Point::~Point()
 	{
 	}
+		
+	void Point::preConditionOperator(const Point& rhs) const
+	{
+		if (m_dimParameter != rhs.m_dimParameter || m_dimCriteria != rhs.m_dimCriteria)
+			throw GodError("Trying to combine points with different dimensions");
+	}
 
 	Point& Point::operator= (const Point& rhs)
 	{
@@ -70,11 +77,6 @@ namespace libgod
 			m_dimCriteria == rhs.m_dimCriteria &&
 			!memcmp(m_parameters.get(), rhs.m_parameters.get(), m_dimParameter * sizeof(double)) &&
 			!memcmp(m_criteria.get(), rhs.m_criteria.get(), m_dimCriteria * sizeof(double));
-	}
-
-	bool Point::operator!= (const Point& rhs) const
-	{
-		return !(*this == rhs);
 	}
 
 	bool Point::isBare() const
@@ -154,6 +156,51 @@ namespace libgod
 			throw GodError("null pointers detected");
 		memcpy(m_criteria.get(), value, m_dimCriteria * sizeof(double));
 	}
+		
+	bool Point::operator<(const Point& rhs) const
+	{
+		Comparable c;
+		return c(*this, rhs);
+	}
+
+	Point Point::operator+=(const Point& rhs)
+	{
+		preConditionOperator(rhs);
+		for (size_t i = 0; i < m_dimParameter; ++i)
+			m_parameters[i] += rhs.m_parameters[i];
+		for (size_t i = 0; i < m_dimCriteria; ++i)
+			m_criteria[i] += rhs.m_criteria[i];
+		return *this;
+	}
+
+	Point Point::operator-=(const Point& rhs)
+	{
+		preConditionOperator(rhs);
+		for (size_t i = 0; i < m_dimParameter; ++i)
+			m_parameters[i] -= rhs.m_parameters[i];
+		for (size_t i = 0; i < m_dimCriteria; ++i)
+			m_criteria[i] -= rhs.m_criteria[i];
+		return *this;
+	}
+
+	Point Point::operator*=(double mult)
+	{ 
+		for (size_t i = 0; i < m_dimParameter; ++i)
+			m_parameters[i] *= mult;
+		for (size_t i = 0; i < m_dimCriteria; ++i)
+			m_criteria[i] *= mult;
+		return *this;
+	}
+
+	Point Point::operator/=(double mult)
+	{
+		for (size_t i = 0; i < m_dimParameter; ++i)
+			m_parameters[i] /= mult;
+		for (size_t i = 0; i < m_dimCriteria; ++i)
+			m_criteria[i] /= mult;
+		return *this;
+	}
+		
 	
 };
 
