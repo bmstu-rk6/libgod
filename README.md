@@ -21,7 +21,7 @@ Download and build [google test](http://code.google.com/p/googletest):
 
 	cmake . && make
 
-Adjust library path in `build.conf` if needed
+Copy `build.conf.default` to `build.conf` and make adjustments for your system.
 
 Build a god library:
 
