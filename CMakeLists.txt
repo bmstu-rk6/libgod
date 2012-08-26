@@ -23,7 +23,7 @@ endif()
 if(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")
 	add_definitions(/W2)
 elseif(CMAKE_COMPILER_IS_GNUCC)
-	add_definitions(-Wall)
+	add_definitions(-Wall -Wno-sign-compare)
 endif()
 
 add_subdirectory(lib)
