@@ -19,7 +19,7 @@ build()
 	mkdir -p $INSTALL_DIR build
 	cd build
 	CMAKE_COMMAND="cmake --no-warn-unused-cli -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
-		-DBOOST_ROOT=$BOOST_ROOT -DGTEST_ROOT=$GTEST_ROOT .."
+		-DBOOST_ROOT=$BOOST_ROOT -DGTEST_ROOT=$GTEST_ROOT $* .."
 	echo Executing following cmake command
 	echo $CMAKE_COMMAND
 	$CMAKE_COMMAND
@@ -36,7 +36,9 @@ build_fast()
 	cd $OLDDIR
 }
 
-case "$1" in
+mode=$1
+[ -z "$1" ] || shift
+case "$mode" in
 	clean)
 		clean
 		;;
@@ -52,7 +54,7 @@ case "$1" in
 		;;
 
 	build)
-		build
+		build $*
 		;;
 
 	fast)
@@ -61,7 +63,7 @@ case "$1" in
 
 	*)
 		clean
-		build
+		build $*
 		(cd build && make install)
 		;;
 esac
