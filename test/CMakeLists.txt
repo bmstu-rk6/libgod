@@ -45,7 +45,7 @@ foreach(test ${GOD_ALL_TESTS})
 	add_executable(${test} ${test}.cxx)
 	target_link_libraries(${test} god)
 	target_link_libraries(${test} godtest)
-	target_link_libraries(${test} ${GTEST_BOTH_LIBRARIES})
+	target_link_libraries(${test} ${GTEST_BOTH_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
 	add_test(NAME "${test}" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${test})
 endforeach(test ${TEST_testS})

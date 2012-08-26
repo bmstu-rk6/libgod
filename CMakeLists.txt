@@ -14,6 +14,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
 find_package(ASN1C REQUIRED) 
 find_package(Boost REQUIRED)
 find_package(GTest REQUIRED)
+find_package(Threads REQUIRED)
 
 if(Boost_FOUND)
 	include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
