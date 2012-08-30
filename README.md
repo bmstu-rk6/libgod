@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/bmstu-rk6/libgod.png)](http://travis-ci.org/bmstu-rk6/libgod) [![Dependency Status](https://secure.travis-ci.org/bmstu-rk6/libgod.png?travis)](http://travis-ci.org/bmstu-rk6/libgod)
+
 libgod
 ========
 
