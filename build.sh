@@ -3,8 +3,11 @@ set -e
 
 OLDDIR=`pwd`
 
+mode=$1
+[ -z "$1" ] || shift
+
 # parameters
-. ./build.conf
+[ "$mode" == "travis_pre" ] || . ./build.conf
 
 trap "cd $OLDDIR" exit
 
@@ -36,8 +39,6 @@ build_fast()
 	cd $OLDDIR
 }
 
-mode=$1
-[ -z "$1" ] || shift
 case "$mode" in
 	clean)
 		clean
@@ -59,6 +60,25 @@ case "$mode" in
 
 	fast)
 		build_fast
+		;;
+
+	travis_pre)
+		GTEST_NAME=gtest-1.6.0
+		# make a conf
+		echo "INSTALL_DIR=`pwd`/localgod" > build.conf
+		echo "CMAKE_BUILD_TYPE=Debug" >> build.conf
+		echo "BOOST_ROOT=/usr/include/boost" >> build.conf
+		echo "GTEST_ROOT=`pwd`/$GTEST_NAME" >> build.conf
+		# download and build gtest
+		if [ ! -d "$GTEST_NAME" ] ; then
+			wget -q "https://googletest.googlecode.com/files/$GTEST_NAME.zip"
+			unzip -qq "$GTEST_NAME.zip"
+			rm $GTEST_NAME.zip
+			cd $GTEST_NAME
+			cmake .
+			make
+			cd ..
+		fi
 		;;
 
 	*)
