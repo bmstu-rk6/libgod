@@ -9,7 +9,7 @@ branches:
   - master
 
 before_script:
-- ./build.sh travis_pre
+- ./build.sh prepare
 
 before_install:
 - sudo apt-get update -qq

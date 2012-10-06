@@ -10,7 +10,7 @@ mode=$1
 [ -z "$1" ] || shift
 
 # parameters
-[ "$mode" == "travis_pre" ] || . ./build.conf
+[ "$mode" == "prepare" ] || [ "$mode" == "clean" ] || . ./build.conf
 
 trap "cd $BASEDIR" exit
 
@@ -110,7 +110,7 @@ case "$mode" in
 		build_fast
 		;;
 
-	travis_pre)
+	prepare)
 		# make a conf
 		echo "INSTALL_DIR=`pwd`/localgod" > build.conf
 		echo "CMAKE_BUILD_TYPE=Debug" >> build.conf
