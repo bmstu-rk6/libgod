@@ -13,4 +13,4 @@ before_script:
 
 before_install:
 - sudo apt-get update -qq
-- sudo apt-get install -qq cmake asn1c libboost-dev
+- sudo apt-get install -qq cmake libboost-dev

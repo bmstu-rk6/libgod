@@ -1,7 +1,10 @@
 #!/bin/sh
 set -e
 
-OLDDIR=`pwd`
+BASEDIR=`pwd`
+
+GTEST_VERSION=1.6.0
+ASN1C_VERSION=0.9.21
 
 mode=$1
 [ -z "$1" ] || shift
@@ -9,7 +12,7 @@ mode=$1
 # parameters
 [ "$mode" == "travis_pre" ] || . ./build.conf
 
-trap "cd $OLDDIR" exit
+trap "cd $BASEDIR" exit
 
 clean()
 {
@@ -17,18 +20,59 @@ clean()
 	rm -rf build
 }
 
+clean_all()
+{
+	clean
+	rm -rf third-party
+}
+
+bootstrap_asn1c()
+{
+	echo Boostraping asn1c-$ASN1C_VERSION ...
+	cd third-party
+	gunzip < $BASEDIR/asn1c-$ASN1C_VERSION.tar.gz | tar xf -
+	cd asn1c-$ASN1C_VERSION
+	./configure
+	make
+	cd $BASEDIR
+}
+
+bootstrap_gtest()
+{
+	echo Boostraping gtest-$GTEST_VERSION ...
+	cd third-party
+	unzip -q $BASEDIR/gtest-$GTEST_VERSION.zip
+	cd gtest-$GTEST_VERSION
+	cmake .
+	make
+	cd $BASEDIR
+}
+
+bootstrap()
+{
+	rm -rf third-party
+	mkdir -p third-party
+	bootstrap_asn1c
+	bootstrap_gtest
+}
+
 build()
 { 
 	mkdir -p $INSTALL_DIR build
 	cd build
-	CMAKE_COMMAND="cmake --no-warn-unused-cli -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
-		-DBOOST_ROOT=$BOOST_ROOT -DGTEST_ROOT=$GTEST_ROOT $* .."
+	CMAKE_COMMAND="cmake --no-warn-unused-cli \
+		-DCMAKE_INSTALL_PREFIX=$INSTALL_DIR \
+		-DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
+		-DBOOST_ROOT=$BOOST_ROOT \
+		-DGTEST_ROOT=$BASEDIR/third-party/gtest-$GTEST_VERSION \
+		-DASN1C_ROOT=$BASEDIR/third-party/asn1c-$ASN1C_VERSION \
+		$* .."
 	echo Executing following cmake command
 	echo $CMAKE_COMMAND
 	$CMAKE_COMMAND
 	make 
 	CTEST_OUTPUT_ON_FAILURE=YES make test
-	cd $OLDDIR
+	cd $BASEDIR
 }
 
 build_fast()
@@ -36,12 +80,16 @@ build_fast()
 	cd build
 	make 
 	CTEST_OUTPUT_ON_FAILURE=YES make test
-	cd $OLDDIR
+	cd $BASEDIR
 }
 
 case "$mode" in
 	clean)
 		clean
+		;;
+
+	clean_all)
+		clean_all
 		;;
 
 	makelist)
@@ -63,26 +111,22 @@ case "$mode" in
 		;;
 
 	travis_pre)
-		GTEST_NAME=gtest-1.6.0
 		# make a conf
 		echo "INSTALL_DIR=`pwd`/localgod" > build.conf
 		echo "CMAKE_BUILD_TYPE=Debug" >> build.conf
 		echo "BOOST_ROOT=/usr/include/boost" >> build.conf
-		echo "GTEST_ROOT=`pwd`/$GTEST_NAME" >> build.conf
-		# download and build gtest
-		if [ ! -d "$GTEST_NAME" ] ; then
-			wget -q "https://googletest.googlecode.com/files/$GTEST_NAME.zip"
-			unzip -qq "$GTEST_NAME.zip"
-			rm $GTEST_NAME.zip
-			cd $GTEST_NAME
-			cmake .
-			make
-			cd ..
-		fi
+		# download deps
+		wget -q -nc "https://googletest.googlecode.com/files/gtest-$GTEST_VERSION.zip"
+		wget -q -nc "http://lionet.info/soft/asn1c-$ASN1C_VERSION.tar.gz"
+		;;
+
+	bootstrap)
+		bootstrap
 		;;
 
 	*)
 		clean
+		[ -d "$BASEDIR/third-party" ] || bootstrap
 		build $*
 		(cd build && make install)
 		;;

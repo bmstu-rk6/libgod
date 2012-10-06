@@ -20,7 +20,8 @@
 # (To distribute this file outside of CMake, substitute the full
 #  License text for the above reference.)
 
-FIND_PROGRAM(ASN1C_EXECUTABLE NAMES asn1c )
+FIND_PROGRAM(ASN1C_EXECUTABLE NAMES asn1c 
+	HINTS ENV${ASN1C_ROOT}/asn1c ${ASN1C_ROOT}/asn1c)
 
 # handle the QUIETLY and REQUIRED arguments and set ASN1C_FOUND to TRUE if 
 # all listed variables are TRUE
