@@ -61,27 +61,35 @@ TEST(Comparable, Union)
 	libgod::Comparable c;
 
 	libgod::Set s1(dp,dc);
+	s1.add(randPoint(dp,dc));
+	s1.add(randPoint(dp,dc));
+
 	libgod::Set s2(dp,dc);
-	s1.add(randPoint(dp,dc));
-	s1.add(randPoint(dp,dc));
 	s2.add(randPoint(dp,dc));
 	s2.add(randPoint(dp,dc));
 	s2.add(randPoint(dp,dc));
 
+  // ensure order
+	s2[0].setParameterAt(0, s1[0].parameterAt(0)+1);
+	EXPECT_TRUE(c(s1[0],s2[0]));
+
 	// unions checks
 	libgod::Union u1(dp,dc);
+	u1.add(s1);
+	u1.add(s1);
+
 	libgod::Union u2(dp,dc);
-	u1.add(s1);
-	u1.add(s1);
 	u2.add(s1);
 	u2.add(s1);
 	u2.add(s1);
+	EXPECT_TRUE(c(u1,u2) != c(u2,u1));
 	EXPECT_TRUE(c(u1,u2));
 	EXPECT_TRUE(!c(u2,u1));
 
 	u2.clear();
 	u2.add(s2);
 	u2.add(s2);
+	EXPECT_TRUE(c(u1,u2) != c(u2,u1));
 	EXPECT_TRUE(c(u1,u2));
 	EXPECT_TRUE(!c(u2,u1));
 }
