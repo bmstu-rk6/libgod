@@ -10,7 +10,7 @@ mode=$1
 [ -z "$1" ] || shift
 
 # parameters
-[ "$mode" == "prepare" ] || [ "$mode" == "clean" ] || . ./build.conf
+[ "$mode" = "prepare" ] || [ "$mode" = "clean" ] || [ "$mode" = "clean_all" ] || . ./build.conf
 
 trap "cd $BASEDIR" exit
 
