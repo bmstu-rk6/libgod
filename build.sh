@@ -66,13 +66,15 @@ build()
 		-DBOOST_ROOT=$BOOST_ROOT \
 		-DGTEST_ROOT=$BASEDIR/third-party/gtest-$GTEST_VERSION \
 		-DASN1C_ROOT=$BASEDIR/third-party/asn1c-$ASN1C_VERSION \
-		-DBUILD_DOCUMENTATION=ON \
+		-DBUILD_DOCUMENTATION=$BUILD_DOC \
 		$* .."
 	echo Executing following cmake command
 	echo $CMAKE_COMMAND
 	$CMAKE_COMMAND
 	make 
-	make doc
+	if [ "$BUILD_DOC" == "TRUE" ] || [ "$BUILD_DOC" == "ON" ] || [ "$BUILD_DOC" == "YES" ] ; then
+		make doc
+	fi
 	CTEST_OUTPUT_ON_FAILURE=YES make test
 	cd $BASEDIR
 }
@@ -117,6 +119,7 @@ case "$mode" in
 		echo "INSTALL_DIR=`pwd`/localgod" > build.conf
 		echo "CMAKE_BUILD_TYPE=Debug" >> build.conf
 		echo "BOOST_ROOT=/usr/include/boost" >> build.conf
+		echo "BUILD_DOC=TRUE" >> build.conf
 		# download deps
 		wget -q -nc "https://googletest.googlecode.com/files/gtest-$GTEST_VERSION.zip"
 		wget -q -nc "http://lionet.info/soft/asn1c-$ASN1C_VERSION.tar.gz"

@@ -43,6 +43,9 @@ namespace libgod
 		/** Deep comparison operator */
 		bool operator== (const Point& rhs) const;
 
+		/** Point is always non-bare */
+		bool isBare() const;
+
 		/** Returns count of parameters */
 		size_t dimParameter() const;
 		/** Returns count of criteria */

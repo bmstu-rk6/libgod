@@ -1,6 +1,7 @@
 #include "common.h"
 #include <boost/shared_ptr.hpp>
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 namespace asn1
 {
 #include "God.h"
@@ -9,6 +10,7 @@ namespace asn1
 #include "der_encoder.h"
 #include "xer_encoder.h"
 };
+#endif
 
 #include "libgod.h"
 #include "godasn1.h"

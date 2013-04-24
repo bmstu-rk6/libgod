@@ -7,10 +7,12 @@
 #include "goderror.h"
 #include "storage.h"
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 namespace asn1
 {
 #include "God.h"
 }
+#endif
 #include "godasn1.h"
 #include "godbridge.h"
 

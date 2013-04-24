@@ -7,17 +7,22 @@
 #include "storage.h"
 #include "goderror.h"
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 namespace asn1
 {
 #include "God.h"
 }
+#endif
 #include "godasn1.h"
 #include "godbridge.h"
 
 namespace libgod
 {
 
-	// does not work with pointers
+	/**
+	 * Initialize object with zeroes.
+	 * Does not work with pointers so it is disables with type traits.
+	 */
 	template <class T>
 	void zeroed(T& t, 
 					typename boost::disable_if<boost::is_pointer<T> >::type* dummy = 0)
