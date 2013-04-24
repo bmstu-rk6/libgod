@@ -5,10 +5,13 @@ namespace libgod
 {
 
 	/**
-	 * Provides less-than comparators for point, set and union
+	 * Functor with "less-than" comparators for point, set and union
 	 */
 	class Comparable
 	{
+		/**
+		 * Compare parameters vector
+		 */
 		bool compareParameters(const Point& left, const Point& right) const
 		{
 			return 
@@ -17,6 +20,9 @@ namespace libgod
 					right.parameters(), right.parameters() + right.dimParameter());
 		}
 
+		/**
+		 * Compare criteria vector
+		 */
 		bool compareCriteria(const Point& left, const Point& right) const
 		{
 			return 
@@ -25,6 +31,9 @@ namespace libgod
 					right.criteria(), right.criteria() + right.dimCriteria());
 		}
 
+		/**
+		 * Generic comparator for both union and set structures
+		 */
 		template <class T>
 		bool compareGeneric (const T& left, const T& right) const
 		{
@@ -45,6 +54,9 @@ namespace libgod
 
 	public:
 		
+		/**
+		 * Returns true if left point is less-than right
+		 */
 		bool operator() (const Point& left, const Point& right) const
 		{
 			if (compareParameters(left,right)) return true;
@@ -54,11 +66,17 @@ namespace libgod
 			return false;
 		}
 
+		/**
+		 * Returns true if left set is less-than right
+		 */
 		bool operator() (const Set& left, const Set& right) const
 		{
 			return compareGeneric(left, right);
 		}
 		
+		/**
+		 * Returns true if left union is less-than right
+		 */
 		bool operator() (const Union& left, const Union& right) const
 		{
 			return compareGeneric(left, right);

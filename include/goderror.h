@@ -4,7 +4,9 @@
 namespace libgod
 {
 
-	// Generic error class
+	/**
+	 * Generic error exception class
+	 */
 	class GodError : public std::runtime_error
 	{
 	public:
@@ -29,7 +31,9 @@ namespace libgod
 		}
 	};
 
-	// File not found error
+	/**
+	 * File not found exception class
+	 */
 	class GodNotFoundError : public GodError
 	{
 	public:
@@ -39,8 +43,9 @@ namespace libgod
 		}
 	};
 	
-
-	// Range error
+	/**
+	 * Out of range exception class
+	 */
 	class GodOutOfRangeError : public GodError
 	{
 	public:
@@ -51,7 +56,9 @@ namespace libgod
 		}
 	};
 	
-	// Assert
+	/**
+	 * Assertion exception class. Thrown when assertion is failed.
+	 */
   class AssertError : public GodError
 	{
   public:
@@ -59,8 +66,12 @@ namespace libgod
     explicit AssertError (const boost::format& message) : GodError(message){}
   };
 
+	/**
+	 * Assert macro. Assert passes if expression Expr1 evaluates to true
+	 */
 	#define GOD_ASSERT(Expr1) libgod::assertTrue((Expr1), __LINE__)
 	template <class T>
+
 	void assertTrue (const T& left, unsigned line)
 	{
 		if (!(bool)left)

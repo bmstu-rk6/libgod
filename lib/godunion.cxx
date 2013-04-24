@@ -37,8 +37,6 @@ namespace libgod
 		return !(*this == rhs);
 	}
 	
-	// a bit hackish. we cant't invoke base class method
-	// not on the self
 	bool Union::invokeEquals (const Union& rhs) const
 	{
 		return Union::BaseType::deepEquals(rhs);

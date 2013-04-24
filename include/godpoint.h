@@ -4,6 +4,11 @@
 namespace libgod
 {
 
+	/**
+	 * Class represents a point.
+	 * Point contains a vector of parameters and a vector of criteria.
+	 * Points supports natural arithmetic, comparison operations.
+	 */
 	class Point 
     : boost::addable< Point
     , boost::subtractable< Point     
