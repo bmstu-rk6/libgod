@@ -66,11 +66,13 @@ build()
 		-DBOOST_ROOT=$BOOST_ROOT \
 		-DGTEST_ROOT=$BASEDIR/third-party/gtest-$GTEST_VERSION \
 		-DASN1C_ROOT=$BASEDIR/third-party/asn1c-$ASN1C_VERSION \
+		-DBUILD_DOCUMENTATION=ON \
 		$* .."
 	echo Executing following cmake command
 	echo $CMAKE_COMMAND
 	$CMAKE_COMMAND
 	make 
+	make doc
 	CTEST_OUTPUT_ON_FAILURE=YES make test
 	cd $BASEDIR
 }
