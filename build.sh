@@ -74,6 +74,7 @@ build()
 	make 
 	if [ "$BUILD_DOC" == "TRUE" ] || [ "$BUILD_DOC" == "ON" ] || [ "$BUILD_DOC" == "YES" ] ; then
 		make doc
+		make -C latex
 	fi
 	CTEST_OUTPUT_ON_FAILURE=YES make test
 	cd $BASEDIR
