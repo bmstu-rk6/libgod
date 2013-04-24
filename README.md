@@ -20,11 +20,12 @@ Dependencies
  * [asn1c](http://lionet.info/asn1c) 
  * [google test](http://code.google.com/p/googletest)
  * [boost](http://boost.org)
+ * [doxygen](http://doxygen.org) (optional)
 
 Boost and CMake must be installed on the system.
 For example, for debian system:
   
-         sudo apt-get install cmake libboost-dev
+         sudo apt-get install cmake libboost-dev doxygen
 
 Building
 --------
@@ -37,7 +38,14 @@ Simply run:
 
 It generates typical `build.conf` and downloads dependencies to the project directory.
 
-Adjust `build.conf` if needed. Consult `build.conf.default` for sample settings.
+Run:
+  
+        ./build.sh bootstrap
+
+to extract dependencies to the `third-party` directory.
+
+Then adjust `build.conf` if needed. Consult `build.conf.default` for sample settings.
+You are ready to build a project.
 
 ### Build a libgod
 
@@ -45,14 +53,15 @@ Build a god library and its dependencies:
 
         ./build.sh
 
-It builds everything, install library locally and run tests.
+It builds everything, installs library locally and runs tests.
 
-You can rub only library build by running:
+You can run only library build by issuing:
 
         ./build.sh build
 
-Finally, you can clean a build by running:
+Finally, you can clean a build by issuing:
 
         ./build.sh clean
 
 Please consult `build.sh` for more useful tasks such as _clean_all_, _fast_, _bootstrap_.
+Travis build is supported and configured in `.travis.yml`.
