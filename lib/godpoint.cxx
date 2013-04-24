@@ -79,11 +79,6 @@ namespace libgod
 			!memcmp(m_criteria.get(), rhs.m_criteria.get(), m_dimCriteria * sizeof(double));
 	}
 
-	bool Point::isBare() const
-	{
-		return false;
-	}
-	
 	size_t Point::dimParameter() const
 	{
 		return m_dimParameter;

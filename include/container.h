@@ -6,12 +6,14 @@ namespace libgod
 
 	namespace details
 	{
+		/** Universal sort function for vector */
 		template <class T, class Comp>
 		void genericSort (typename std::vector<T>& cont, const Comp& comp)
 		{
 			std::sort(cont.begin(), cont.end(), comp);
 		}
 		
+		/** Universal sort function for list */
 		template <class T, class Comp>
 		void genericSort (typename std::list<T>& cont, const Comp& comp)
 		{
@@ -19,24 +21,38 @@ namespace libgod
 		}
 	};
 
+	/**
+	 * Container class represents a universal storage
+	 * for points and sets.
+	 * Container supports iterationg through elemements,
+	 * accessing by index, adding and removing
+	 */
 	template <typename T, typename Inner>
 	class Container
 	{
 	protected:
+		/** Type itself */
 		typedef Container<T, Inner> SelfType;
 
+		/** Whether a container is bare i.e. without data and dimensions */
 		bool m_isBare;
 
+		/** Parameter dimension, remembered in container constructing new type instances */
 		size_t m_dimParameter;
+		/** Criteria dimension, remembered in container constructing new type instances */
 		size_t m_dimCriteria;
 
+		/** Data itself */
 		Inner m_items;
 
+		/** Derived class name, used for debug purposes */
 		const std::string m_classDesc;
 		
+		/** Metadata associated with data */
 		Metadata m_metadata;
 
 
+		/** Construct a container with the specified dimensions */
 		Container (const std::string& classDesc, size_t dimParameter, size_t dimCriteria)
 			: m_isBare(false),
 				m_dimParameter(dimParameter),
@@ -47,6 +63,7 @@ namespace libgod
 					throw GodError("dimensions should be posititive");
 			}
 		
+		/** Construct a copy of another container. Container is reshaped. */
 		Container (const SelfType& rhs)
 			: m_isBare(false),
 			 	m_dimParameter(rhs.m_dimParameter),
@@ -59,6 +76,7 @@ namespace libgod
 					throw GodError("dimensions should be posititive");
 			}
 
+		/** Construct a bare container with class description */
 		explicit Container (const std::string& classDesc)
 			: m_isBare(true),
 			 	m_dimParameter(1),
@@ -67,6 +85,7 @@ namespace libgod
 			{
 			}
 
+		/** Construct a bare container */
 		Container ()
 			: m_isBare(true),
 			 	m_dimParameter(1),
@@ -79,6 +98,10 @@ namespace libgod
 		{
 		}
 
+		/**
+		 * Deep equals for container.
+		 * Takes container content into account.
+		 */
 		bool deepEquals (const SelfType& rhs) const
 		{
 			return
@@ -87,6 +110,9 @@ namespace libgod
 				m_items == rhs.m_items;
 		}
 
+		/**
+		 * Precondition for all public methods 
+		 */
 		void preConditionBare() const
 		{
 			if (m_isBare)
@@ -95,9 +121,15 @@ namespace libgod
 
 	public:
 		
+		/** Non-constant iterator type */
 		typedef typename Inner::iterator iterator;
+		/** Constant iterator type */
 		typedef typename Inner::const_iterator const_iterator;
 	
+		/** Assignment operator 
+		 * Assignment to non-bare container must follow dimensions
+		 * Assignment to bare container must initialize this.
+		 */
 		SelfType& operator= (const SelfType& rhs)
 		{
 			if (this != &rhs)
@@ -121,84 +153,90 @@ namespace libgod
 			}
 			return *this;
 		}
-
-		// XXX: comparison doesn't care about metadata. is it okay?
-		bool operator== (const SelfType& rhs) const
-		{
-			return fullyEquals(rhs);
-		}
-
-		bool operator!= (const SelfType& rhs) const
-		{
-			return !fullyEquals(rhs);
-		}
-
+		
+		/** Returns count of parameters */
 		size_t dimParameter() const
 		{
 			return m_dimParameter;
 		}
 
+		/** Returns count of criteria */
 		size_t dimCriteria() const
 		{
 			return m_dimCriteria;
 		}
 
+		/** Return size of the container */
 		size_t size() const
 		{
 			return m_items.size();
 		}
 
+		/** Return whether a container is empty */
 		bool empty() const
 		{
 			return m_items.empty();
 		}
 
+		/**
+		 * Deletes all elements in container but leave dimensions
+		 */
 		void clear()
 		{
 			preConditionBare();
 			m_items.clear();
 		}
 
+		/**
+		 * Returns whether a container is bare (non-initialized)
+		 */
 		bool isBare() const
 		{
 			return m_isBare;
 		}
 
+		/** Return a reference to metadata */
 		Metadata& metadata()
 		{
 			return m_metadata;
 		}
 		
+		/** Return a const reference to metadata */
 		const Metadata& metadata() const
 		{
 			return m_metadata;
 		}
 
 
+		/** Iterator to the beginning of container */
 		iterator begin()
 		{
 			preConditionBare();
 			return m_items.begin();
 		}
 
+		/** Iterator to the beginning of container */
 		const_iterator begin() const
 		{
 			preConditionBare();
 			return m_items.begin();
 		}
 
+		/** Iterator to the end of container */
 		iterator end()
 		{
 			preConditionBare();
 			return m_items.end();
 		}
 
+		/** Iterator to the end of container */
 		const_iterator end() const
 		{
 			preConditionBare();
 			return m_items.end();
 		}
 
+		/** Return an iterator to the item at index ind */
 		iterator atIndex(size_t ind)
 		{
 			preConditionBare();
@@ -209,6 +247,7 @@ namespace libgod
 			return it;
 		}
 
+		/** Return an iterator to the item at index ind */
 		const_iterator atIndex(size_t ind) const
 		{
 			preConditionBare();
@@ -219,6 +258,7 @@ namespace libgod
 			return it;
 		}
 
+		/** Add an empty item with the container dimension and return a reference to it */
 		T& add()
 		{
 			preConditionBare();
@@ -226,6 +266,7 @@ namespace libgod
 			return m_items.back();
 		}
 
+		/** Add a specified item to the end of container */
 		void add(const T& item)
 		{
 			if (isBare())
@@ -246,12 +287,14 @@ namespace libgod
 			m_items.push_back(item);
 		}
 
+		/** Remove an item at specified index ind */
 		void remove(size_t ind)
 		{
 			preConditionBare();
 			remove(atIndex(ind));
 		}
 
+		/** Remove an item at iterator iter */
 		void remove(iterator iter)
 		{
 			preConditionBare();
@@ -260,6 +303,7 @@ namespace libgod
 			m_items.erase(iter);
 		}
 
+		/** Sort a container with the specified comparison functor */
 		template <class Comp>
 		void sort(const Comp& comp)
 		{
@@ -267,16 +311,19 @@ namespace libgod
 			details::genericSort(m_items, comp);
 		}
 
+		/** Access an item at index ind */
 		const T& operator[] (size_t ind) const
 		{
 			return *atIndex(ind);
 		}
 
+		/** Access an item at index ind */
 		T& operator[] (size_t ind)
 		{
 			return *atIndex(ind);
 		}
 
+		/** Swap items at positions left_ind and right_ind */
 		void swapItems (size_t left_ind, size_t right_ind)
 		{
 			preConditionBare();

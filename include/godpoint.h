@@ -30,38 +30,53 @@ namespace libgod
 
 	public:
 
+		/** Construct a bare point with specified dimensions, all values are set to 0 */
 		Point(size_t dimParameter, size_t dimCriteria);
+		/** Construct a point with specified dimensions, values are initialized from parameters and criteria arrays */
 		Point(size_t dimParameter, size_t dimCriteria, const double* parameters, const double* criteria);
+		/** Construct a copy of exisiting point, all contents are copied*/
 		Point (const Point& rhs);
 		~Point();
+		/** Assigment operator, deep copy */
 		Point& operator= (const Point& rhs);
 
+		/** Deep comparison operator */
 		bool operator== (const Point& rhs) const;
 
-		bool isBare() const;
-
+		/** Returns count of parameters */
 		size_t dimParameter() const;
+		/** Returns count of criteria */
 		size_t dimCriteria() const;
 
+		/** @name Parameters accessors functions
+		  * Modify criteria at given indices, range check is always performed
+  		* @{*/
 		double parameterAt(size_t ind) const;
 		void setParameterAt(size_t ind, double value);
 		double* parameters();
 		const double* parameters() const;
 		void setParameters(const double* value);
+		/**@}*/
 
+		/** @name Criteria accessors functions 
+		 * Modify criteria at given indices, range check is always performed
+		* @{*/
 		double criterionAt(size_t ind) const;
 		void setCriterionAt(size_t ind, double value);
 		double* criteria();
 		const double* criteria() const;
 		void setCriteria(const double* value);
+		/**@}*/
 
-		// boost::operators support
-		// boost provides following operators: <=, >=, >, +, -, /, *, !=
+		/** @name Operators support
+		 * boost::operators support, provides following operators: <=, >=, >, +, -, /, *, !=
+		* @{*/
 		bool operator<(const Point& rhs) const;
 		Point operator+=(const Point& rhs);
 		Point operator-=(const Point& rhs);
 		Point operator*=(double mult);
 		Point operator/=(double mult);
+		/**@}*/
 	};
 
 
