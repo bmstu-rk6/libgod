@@ -3,7 +3,7 @@ set -e
 
 BASEDIR=`pwd`
 
-GTEST_VERSION=1.6.0
+GTEST_VERSION=1.12.1
 ASN1C_VERSION=0.9.21
 
 mode=$1
@@ -41,10 +41,11 @@ bootstrap_gtest()
 {
 	echo Boostraping gtest-$GTEST_VERSION ...
 	cd third-party
-	unzip -q $BASEDIR/gtest-$GTEST_VERSION.zip
-	cd gtest-$GTEST_VERSION
-	cmake .
+	unzip -q $BASEDIR/release-$GTEST_VERSION.zip
+	cd googletest-release-$GTEST_VERSION
+	cmake -DCMAKE_INSTALL_PREFIX=$BASEDIR/third-party/gtest .
 	make
+	make install
 	cd $BASEDIR
 }
 
@@ -64,8 +65,9 @@ build()
 		-DCMAKE_INSTALL_PREFIX=$INSTALL_DIR \
 		-DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
 		-DBOOST_ROOT=$BOOST_ROOT \
-		-DGTEST_ROOT=$BASEDIR/third-party/gtest-$GTEST_VERSION \
+		-DGTEST_ROOT=$BASEDIR/third-party/gtest \
 		-DASN1C_ROOT=$BASEDIR/third-party/asn1c-$ASN1C_VERSION \
+		-DCMAKE_CXX_STANDARD=11 \
 		-DBUILD_DOCUMENTATION=$BUILD_DOC \
 		$* .."
 	echo Executing following cmake command
@@ -122,7 +124,7 @@ case "$mode" in
 		echo "BOOST_ROOT=/usr/include/boost" >> build.conf
 		echo "BUILD_DOC=TRUE" >> build.conf
 		# download deps
-		wget -q -nc "https://googletest.googlecode.com/files/gtest-$GTEST_VERSION.zip"
+		wget -q -nc "https://github.com/google/googletest/archive/refs/tags/release-$GTEST_VERSION.zip"
 		wget -q -nc "http://lionet.info/soft/asn1c-$ASN1C_VERSION.tar.gz"
 		;;
 
