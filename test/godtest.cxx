@@ -1,5 +1,11 @@
 #include "godtest.h"
 
+namespace asn1
+{
+#include "God.h"
+};
+#include "godasn1.h"
+
 namespace fileutils
 {
 	void readFile (std::string filename, std::vector<unsigned char>& bytes)
@@ -49,9 +55,20 @@ void FileComparer::setFileName(std::string filename)
 		fileutils::removeFile(m_outFilename);
 }
 
+/** Check file equality by XER contents (not binary contents) */
 bool FileComparer::checkEquals()
 {
-	return fileutils::equalsFiles(m_inFilename, m_outFilename);
+	std::cout << "Comparing " << m_inFilename << " and " << m_outFilename << std::endl;
+	//return fileutils::equalsFiles(m_inFilename, m_outFilename);
+
+	std::stringstream ss1, ss2;
+	libgod::GodASN1 ga1(m_inFilename);
+	ga1.dump(ss1, ga1.getRoot().get());
+
+	libgod::GodASN1 ga2(m_outFilename);
+	ga2.dump(ss2, ga2.getRoot().get());
+
+	return ss1.str() == ss2.str();
 }
 
 
