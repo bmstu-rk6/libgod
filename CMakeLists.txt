@@ -1,6 +1,9 @@
 cmake_minimum_required (VERSION 3.1)
 project(god C CXX)
 
+include(conanbuildinfo.cmake)
+conan_basic_setup()
+
 set(LIBGOD_MAJOR_VERSION "1")
 set(LIBGOD_MINOR_VERSION "1")
 set(LIBGOD_PATCH_VERSION "0")
