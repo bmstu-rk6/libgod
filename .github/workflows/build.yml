@@ -1,0 +1,47 @@
+name: Build
+
+on: [push]
+
+jobs:
+  run:
+
+    strategy:
+      matrix:
+        shared: [ "False", "True" ]
+        os: [ ubuntu-22.04 ]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install build dependencies
+        run: |
+          sudo apt install -y build-essential g++ cmake python3-pip
+
+      - name: Install Conan
+        run: |
+          pip3 install conan
+
+      - name: Configure Conan
+        env:
+          CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
+        run: |
+          conan user
+          conan config set general.non_interactive=1
+          conan profile new default --detect
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan remote add upload ${{ secrets.CONAN_REMOTE_URL }}
+          conan user ${{ secrets.CONAN_LOGIN_USERNAME }} -r upload
+
+      - name: Build package
+        run: |
+          conan create . libgod/@ -b missing -o libgod:shared=${{ matrix.shared }}
+      
+      - name: Upload package
+        env:
+          CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
+        run: |
+          conan search "libgod/*" --rev
+          conan upload "libgod/*" --confirm --all --remote=upload
