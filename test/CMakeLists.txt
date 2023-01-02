@@ -1,5 +1,6 @@
 include(CTest)
 
+set(CTEST_PARALLEL_LEVEL 1)
 # all test programs
 
 set(GOD_ALL_TESTS
