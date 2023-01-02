@@ -10,6 +10,7 @@
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 namespace asn1
 {
+#include "REAL.h"
 #include "God.h"
 }
 #endif
@@ -80,8 +81,7 @@ namespace libgod
 		}
 
 		// god.union.set
-		if (asn1::asn_long2INTEGER(&asnSet->pointCount, aset.size()))
-			throw GodError(errReason, errno);
+		asnSet->pointCount = aset.size();
 
 		for (Set::const_iterator itPoint = aset.begin(); 
 				itPoint != aset.end(); ++itPoint)
@@ -104,8 +104,7 @@ namespace libgod
 		zeroed(*asnGod);
 
 		// god.header
-		if (asn1::asn_long2INTEGER(&asnGod->header.version, formatVersion))
-			throw GodError(errReason, errno);
+		asnGod->header.version = formatVersion;
 		
 		// it's an utf8 string
 		if (OCTET_STRING_fromString(&asnGod->header.comment, ""))
@@ -119,12 +118,9 @@ namespace libgod
 		}
 
 		// god.metric
-		if (asn1::asn_long2INTEGER(&asnGod->metric.parameterDim, aunion.dimParameter()))
-			throw GodError(errReason, errno);
-		if (asn1::asn_long2INTEGER(&asnGod->metric.criteriaDim, aunion.dimCriteria()))
-			throw GodError(errReason, errno);
-		if (asn1::asn_long2INTEGER(&asnGod->metric.setsCount, aunion.size()))
-			throw GodError(errReason, errno);
+		asnGod->metric.parameterDim = aunion.dimParameter();
+		asnGod->metric.criteriaDim = aunion.dimCriteria();
+		asnGod->metric.setsCount = aunion.size();
 
 		// god.union
 		for (Union::const_iterator itSet = aunion.begin(); 
@@ -215,8 +211,7 @@ namespace libgod
 		asn1::Point *dataPoint;
 
 		// god.header
-		if (asn1::asn_INTEGER2long(&god->header.version, &actualVersion))
-			throw GodError(errReason, errno);
+		actualVersion = god->header.version;
 		if (actualVersion > formatVersion)
 			throw GodError("Cannot read this newer format");
 		
@@ -225,12 +220,9 @@ namespace libgod
 			throw GodError(errReason, errno);
 
 		// god.metric
-		if (asn1::asn_INTEGER2long(&god->metric.parameterDim, &dimParameter))
-			throw GodError(errReason, errno);
-		if (asn1::asn_INTEGER2long(&god->metric.criteriaDim, &dimCriteria))
-			throw GodError(errReason, errno);
-		if (asn1::asn_INTEGER2long(&god->metric.setsCount, &setsCount))
-			throw GodError(errReason, errno);
+		dimParameter = god->metric.parameterDim;
+		dimCriteria = god->metric.criteriaDim;
+		setsCount = god->metric.setsCount;
 
 		// create non-bare union with right dimensions
 		aunion = libgod::Union(dimParameter, dimCriteria);
@@ -249,8 +241,7 @@ namespace libgod
 			// set.setMetadata
 			convertFromASN1Data(aset.metadata(), dataSet->setMetadata);
 
-			if (asn1::asn_INTEGER2long(&dataSet->pointCount, &pointCount))
-				throw GodError(errReason, errno);
+			pointCount = dataSet->pointCount;
 
 			GOD_ASSERT(dataSet->points.list.count == pointCount);
 
@@ -265,14 +256,12 @@ namespace libgod
 
 				for (size_t ind = 0; ind < (size_t)dimParameter; ++ind)
 				{
-					if (asn1::asn_REAL2double(dataPoint->parameters.list.array[ind], &value))
-						throw GodError(errReason, errno);
+					value = *dataPoint->parameters.list.array[ind];
 					apoint.setParameterAt(ind, value);
 				}
 				for (size_t ind = 0; ind < (size_t)dimCriteria; ++ind)
 				{
-					if (asn1::asn_REAL2double(dataPoint->criteria.list.array[ind], &value))
-						throw GodError(errReason, errno);
+					value = *dataPoint->criteria.list.array[ind];
 					apoint.setCriterionAt(ind, value);
 				}
 			}
